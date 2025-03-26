@@ -1,6 +1,5 @@
 # ReCode: Time Lag Analysis Application
 
-Welcome to the ReCode project, an educational exemplar designed to teach principles of scientific software development through a real-world application.
 
 ## Purpose of this Exemplar
 

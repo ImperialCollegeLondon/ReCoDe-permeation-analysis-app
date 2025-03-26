@@ -4,7 +4,7 @@ import os
 from visualisation import plot_time_lag_analysis, plot_flux_over_time, plot_concentration_location_profile, plot_concentration_profile
 from time_lag_analysis import time_lag_analysis_workflow
 from util import thickness_dict, qN2_dict
-
+import matplotlib.pyplot as plt
 
 class App(ctk.CTk):
     def __init__(self, data_dir):

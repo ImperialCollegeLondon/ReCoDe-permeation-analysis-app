@@ -1,7 +1,8 @@
 # Numerical Solution of Partial Differential Equations
 
 ## TLDR
-We solve Fick's Second Law (∂C/∂t = D·∂²C/∂x²) using an explicit finite difference method to simulate gas diffusion through a membrane. The membrane initially contains no gas; one side maintains constant concentration while the other side stays at zero concentration. We discretise space and time, replacing continuous derivatives with discrete approximations. The method is conditionally stable, requiring Δt ≤ (Δx)²/(2D). Our implementation ensures stability, properly handles boundary conditions, and calculates flux at the permeate side using Fick's First Law, allowing us to visualise the concentration profile and flux evolution.
+We solve Fick's Second Law ($\frac{\partial C}{\partial t} = D\frac{\partial ^2 C}{\partial x^2}) using an explicit finite difference method to simulate gas diffusion through a membrane. The membrane initially contains no gas; one side maintains constant concentration while the other side stays at zero concentration. We discretise space and time, replacing continuous derivatives with discrete approximations. The method is conditionally stable, requiring $\Delta_t \le \frac{\Delta_t^2}{2D}. Our implementation ensures stability, properly handles boundary conditions, and calculates flux at the permeate side using Fick's First Law, allowing us to visualise the concentration profile and flux evolution.
+
 
 ## Mathematical Background
 

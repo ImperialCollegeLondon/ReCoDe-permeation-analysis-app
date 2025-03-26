@@ -3,7 +3,8 @@
 
 ## Purpose of this Exemplar
 
-This codebase serves as a learning tool for understanding how to design and structure scientific software. It is not intended to teach Python programming from scratch, but rather to demonstrate thoughtful software design practices in a research context.
+This exemplar serves as a learning tool for understanding how to design and structure scientific software. It is not intended to teach Python programming from scratch, but rather to demonstrate thoughtful software design practices in a research context.
+
 
 The application analyses gas permeation through membrane materials using the time-lag method—a technique commonly used in materials science and chemical engineering. Through this specific application, you'll learn broadly applicable principles of scientific software design.
 

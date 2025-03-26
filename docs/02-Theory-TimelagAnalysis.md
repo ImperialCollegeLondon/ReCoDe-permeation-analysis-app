@@ -1,7 +1,8 @@
 # Time Lag Analysis: Theoretical Foundation
 
 ## TLDR
-The time-lag method allows us to calculate both diffusion coefficient (D) and solubility coefficient (S) from a single gas permeation experiment. By plotting cumulative gas flux versus time, we observe a straight line during steady-state. The x-intercept of this line is the "time lag" (θ), from which we calculate D = L²/(6θ) where L is membrane thickness. The slope gives permeability (P), allowing us to determine S = P/D. This technique, pioneered by Daynes (1920) and Barrer (1939), is fundamental for characterising gas transport through membranes.
+The time-lag method allows us to calculate both the diffusion coefficient (D) and solubility coefficient (S) from a single gas permeation experiment. By plotting cumulative gas flux versus time, we observe a straight line during steady-state. The x-intercept of this line is the "time lag" $\theta$v, from which we calculate $D = \frac{L^2}{6\theta}$ where $L$ is membrane thickness. The slope gives permeability $P$, allowing us to determine $S = \frac{P}{D}$. This technique, pioneered by Daynes (1920) and Barrer (1939), is fundamental for characterising gas transport through membranes.
+
 
 ## Introduction to Gas Transport Phenomena
 

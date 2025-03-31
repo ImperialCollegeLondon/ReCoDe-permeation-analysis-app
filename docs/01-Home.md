@@ -29,20 +29,20 @@ This exemplar assumes you have:
 
 ## How to Use This Documentation
 
-1. Start by understanding the theoretical background (`02-Theoretical-Background.md`)
-2. Learn about data management and processing (`03-Data-Management-and-Processing.md`)
-3. Explore the time lag analysis implementation (`04-TimelagAnalysis-Implementation.md`)
-4. Study the PDE solving approach with Python (`05-Python-PDE-Implementation.md`)
-5. Review scientific visualisation techniques (`06-Scientific-Visualisation.md`)
-6. Examine GUI implementation with CustomTkinter (`07-GUI-Implementation.md`)
-7. Understand how components integrate into a workflow (`08-Application-Workflow.md`)
-8. Test your understanding with exercises and learn best practices (`09-Exercises-and-Best-Practices.md`)
+1. Start by understanding the theoretical background (`02-Theoretical-Background`)
+2. Learn about data management and processing (`03-Data-Management-and-Processing`)
+3. Explore the time lag analysis implementation (`04-TimelagAnalysis-Implementation`)
+4. Study the PDE solving approach with Python (`05-Python-PDE-Implementation`)
+5. Review scientific visualisation techniques (`06-Scientific-Visualisation`)
+6. Examine GUI implementation with CustomTkinter (`07-GUI-Implementation`)
+7. Understand how components integrate into a workflow (`08-Application-Workflow`)
+8. Test your understanding with exercises and learn best practices (`09-Exercises-and-Best-Practices`)
 
 ## Navigation Guide
 
 ### Getting Started
 - [`01-Home`](01-Home.md) - Introduction to the project and navigation guide
-- [`02-Theoretical-Background.md`](02-Theoretical-Background.md) - Scientific foundations and principles
+- [`02-Theoretical-Background`](02-Theoretical-Background.md) - Scientific foundations and principles
 
 ### Core Implementation
 - [`03-Data-Management-and-Processing`](03-Data-Management-and-Processing.md) - Data handling and processing

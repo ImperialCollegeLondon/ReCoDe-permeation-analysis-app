@@ -1,9 +1,9 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from calculations import *
-from data_processing import *
-from visualisation import *
+from calculations import time_lag_analysis, flux_pde_const_D
+from data_processing import load_data, preprocess_data, identify_stabilisation_time
+from visualisation import plot_time_lag_analysis, plot_flux_over_time, plot_concentration_location_profile, plot_concentration_profile
 from util import thickness_dict, qN2_dict, get_time_id
 import os
 

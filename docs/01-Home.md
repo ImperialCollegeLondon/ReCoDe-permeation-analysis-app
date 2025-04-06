@@ -63,7 +63,7 @@ The implementation follows these key steps:
 - [`05-Python-PDE-Implementation`](05-Python-PDE-Implementation.md) - PDE-based validation (Step 7)
 
 ### User Interface and Visualisation
-- [`06-Scientific-Visualisation`](06-Scientific-Visualisation.md) - Creating effective visualisations (Step 8)
+- [`06-Visualisation`](06-Visualisation.md) - Creating effective visualisations (Step 8)
 - [`07-GUI-Implementation`](07-GUI-Implementation.md) - Building interfaces with CustomTkinter (Step 10)
 
 ### Integration and Practice

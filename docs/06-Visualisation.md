@@ -1,20 +1,20 @@
-# Scientific Visualization Implementation
+# Scientific Visualisation Implementation
 
-This document explains how the scientific visualizations are implemented in the application. The `visualisation.py` module provides specialized plotting functions to help researchers interpret time lag analysis results effectively.
+This document explains how the scientific visualisations are implemented in the application. The `visualisation.py` module provides specialized plotting functions to help researchers interpret time lag analysis results effectively.
 
 ## Overview
 
-Scientific visualization is a crucial component of the time lag analysis workflow, helping researchers:
+Scientific visualisation is a crucial component of the time lag analysis workflow, helping researchers:
 
-- Visualize the time lag determination process
+- visualise the time lag determination process
 - Examine concentration profiles within the membrane
 - Compare experimental and theoretical flux profiles
 - Validate results through visual inspection
 - Create publication-quality figures
 
-The visualizations in this application are implemented using Matplotlib, a powerful Python plotting library that provides fine control over figure aesthetics and layout.
+The visualisations in this application are implemented using Matplotlib, a powerful Python plotting library that provides fine control over figure aesthetics and layout.
 
-## Core Visualization Functions
+## Core Visualisation Functions
 
 ### 1. Time Lag Analysis Plot
 
@@ -76,7 +76,7 @@ def plot_time_lag_analysis(df: pd.DataFrame, stabilisation_time_s: float, slope:
     return fig, ax
 ```
 
-This function creates the central visualization of the time lag analysis method:
+This function creates the central visualisation of the time lag analysis method:
 
 - **Experimental Data**: The raw cumulative flux data is plotted as a function of time
 - **Steady-State Fit**: A linear fit to the steady-state portion of the curve
@@ -86,7 +86,7 @@ This function creates the central visualization of the time lag analysis method:
 
 The resulting plot provides a clear visual representation of how the time lag is determined from experimental data, which is crucial for validating the analysis.
 
-### 2. Concentration Profile Visualization
+### 2. Concentration Profile Visualisation
 
 ```python
 def plot_concentration_profile(C_profile, L, t_points=None, fig=None, ax=None):
@@ -140,16 +140,16 @@ def plot_concentration_profile(C_profile, L, t_points=None, fig=None, ax=None):
     return fig, ax
 ```
 
-This function visualizes the spatial distribution of gas concentration within the membrane at different times:
+This function visualises the spatial distribution of gas concentration within the membrane at different times:
 
 - **Multiple Time Points**: Shows several snapshots of the concentration profile during the diffusion process
 - **Color Gradient**: Uses a color gradient to indicate time progression
 - **Boundary Conditions**: Clearly shows the fixed boundary conditions (C = C₀ at x = 0, C = 0 at x = L)
 - **Spatial Dimension**: Displays concentration as a function of position within the membrane
 
-This visualization helps researchers understand the gas diffusion process within the membrane and validate that the PDE solver is correctly implementing the physical model.
+This visualisation helps researchers understand the gas diffusion process within the membrane and validate that the PDE solver is correctly implementing the physical model.
 
-### 3. Flux Comparison Visualization
+### 3. Flux Comparison Visualisation
 
 ```python
 def plot_flux_comparison(df_exp, flux_theo, t_theo=None, fig=None, ax=None):
@@ -202,7 +202,7 @@ This function compares the experimental flux data with theoretical predictions f
 - **Visual Validation**: Allows researchers to assess how well the model fits the experimental data
 - **Transient Behavior**: Highlights the approach to steady-state flux
 
-This visualization is crucial for validating the calculated diffusion coefficient by showing how well the theoretical model reproduces the experimental measurements.
+This visualisation is crucial for validating the calculated diffusion coefficient by showing how well the theoretical model reproduces the experimental measurements.
 
 
 ## Consistent Styling with `set_plot_style()`
@@ -233,7 +233,7 @@ def set_plot_style():
 
 ### Key Functions of `set_plot_style()`
 
-1. **Base Style Setting**: Establishes a clean, professional base style using `seaborn-v0_8-whitegrid`, which provides a good foundation for scientific visualization
+1. **Base Style Setting**: Establishes a clean, professional base style using `seaborn-v0_8-whitegrid`, which provides a good foundation for scientific visualisation
 
 2. **Font Configuration**: 
    - Sets sans-serif fonts for better readability on screens and in printed publications
@@ -253,7 +253,7 @@ By centralizing styling decisions in a single function, the implementation achie
 
 1. **Consistency**: All plots share the same visual language, creating a cohesive look and feel
 2. **Maintainability**: Style changes can be made in one location rather than throughout the codebase
-3. **Professionalism**: Ensures all visualizations meet publication standards
+3. **Professionalism**: Ensures all visualisations meet publication standards
 4. **Accessibility**: The chosen color scheme and font sizes improve readability for users with visual impairments
 
 ### Customizing Predefined Styles
@@ -279,11 +279,11 @@ set_plot_style()
 fig, ax = plt.subplots(figsize=figsize_dict['wide'])
 ```
 
-By combining these elements, the application ensures that all visualizations maintain a professional, consistent appearance regardless of which function generates them or which part of the application displays them.
+By combining these elements, the application ensures that all visualisations maintain a professional, consistent appearance regardless of which function generates them or which part of the application displays them.
 
-## Visualization Customization and Style
+## Visualisation Customization and Style
 
-The module includes functions for setting consistent visualization styles:
+The module includes functions for setting consistent visualisation styles:
 
 ```python
 def set_plot_style():
@@ -307,7 +307,7 @@ def set_plot_style():
     ])
 ```
 
-These style settings ensure that all visualizations have a consistent and professional appearance, which is important for:
+These style settings ensure that all visualisations have a consistent and professional appearance, which is important for:
 - Creating publication-quality figures
 - Maintaining visual consistency across different analyses
 - Optimizing readability and clarity of scientific data presentation
@@ -334,18 +334,16 @@ plt.savefig('custom_timelag_plot.png', dpi=300, bbox_inches='tight')
 
 This example demonstrates how to:
 1. Apply consistent styling
-2. Create a basic visualization
+2. Create a basic visualisation
 3. Customize it with additional elements
 4. Save the result to a file
 
 ## Advantages of this Implementation
 
-The visualization implementation in this application offers several advantages:
+The visualisation implementation in this application offers several advantages:
 
-1. **Separation of Concerns**: Visualization logic is separated from analysis code
+1. **Separation of Concerns**: Visualisation logic is separated from analysis code
 2. **Consistent Styling**: All plots have a consistent, professional appearance
 3. **Customizability**: Functions accept optional figure and axes objects for further customization
-4. **Scientific Focus**: Visualizations are optimized for scientific interpretation
+4. **Scientific Focus**: Visualisations are optimized for scientific interpretation
 5. **Integration**: Seamlessly integrates with the analysis workflow
-
-These visualizations help researchers interpret time lag analysis results effectively, validate calculation methods, and prepare publication-quality figures to communicate their findings.

@@ -91,6 +91,26 @@ def _create_initial_condition(Nx, C_eq):
     C_init[0] = C_eq  # Apply boundary condition at x=0 (feed side)
     return C_init
 
+def _diffusion_ode(t, C, diffusion_coeff, dx):
+    """ODE function for the diffusion equation using method of lines.
+    
+    Args:
+        t (float): Current time point (not used, but required by solve_ivp).
+        C (ndarray): Current concentration values at each spatial point.
+        diffusion_coeff (float): Diffusion coefficient.
+        dx (float): Spatial step size.
+        
+    Returns:
+        ndarray: Rate of change of concentration at each spatial point.
+    """
+    dCdt = np.zeros_like(C)
+    
+    # Calculate second derivative using central difference for interior points
+    # Vector operation for interior points (1 to Nx-2)
+    dCdt[1:-1] = diffusion_coeff * (C[2:] - 2*C[1:-1] + C[:-2]) / (dx**2)
+    
+    return dCdt
+
 def _create_diffusion_ode(diffusion_coeff, dx, Nx, C_eq):
     """Helper function to create the ODE function for the diffusion equation.
     
@@ -103,21 +123,11 @@ def _create_diffusion_ode(diffusion_coeff, dx, Nx, C_eq):
     Returns:
         function: ODE function for solve_ivp.
     """
-    def diffusion_ode(t, C):
-        """ODE function for the diffusion equation using method of lines."""
-        dCdt = np.zeros_like(C)
-        
-        # Calculate second derivative using central difference for interior points
-        # Vector operation for interior points (1 to Nx-2)
-        dCdt[1:-1] = diffusion_coeff * (C[2:] - 2*C[1:-1] + C[:-2]) / (dx**2)
-        
-        # Apply boundary conditions
-        dCdt[0] = 0      # Fixed concentration at x=0 (feed side)
-        dCdt[-1] = 0     # Fixed concentration at x=L (permeate side)
-        
-        return dCdt
+    def wrapped_diffusion_ode(t, C):
+        """Wrapper for the diffusion ODE function with fixed parameters."""
+        return _diffusion_ode(t, C, diffusion_coeff, dx)
     
-    return diffusion_ode
+    return wrapped_diffusion_ode
 
 def _solve_diffusion_pde(diffusion_coeff, C_eq, L, T, dx, dt):
     """Solve the diffusion PDE using the method of lines.
@@ -169,12 +179,8 @@ def _prepare_concentration_profile(sol, C_eq):
     Returns:
         ndarray: Concentration profile as a function of position x and time t.
     """
-    # Extract solution and transpose to get (time, position) shape
+    # Extract solution and transpose to get more intuitive (time, position) shape for plotting and exporting
     C_surface = sol.y.T
-    
-    # Ensure boundary conditions are exactly enforced
-    C_surface[:, 0] = C_eq  # x=0 boundary
-    C_surface[:, -1] = 0    # x=L boundary
     
     return C_surface
 
@@ -191,9 +197,7 @@ def _calculate_flux(diffusion_coeff, C_surface, dx, sol):
         ndarray: Flux values at each time point.
     """
     # Calculate flux at x=L using Fick's first law: J = -D·(∂C/∂x)
-    flux_values = np.zeros(len(sol.t))
-    for i in range(len(sol.t)):
-        flux_values[i] = -diffusion_coeff * (C_surface[i, -1] - C_surface[i, -2]) / dx
+    flux_values = -diffusion_coeff * (C_surface[:, -1] - C_surface[:, -2]) / dx
     
     return flux_values
 
@@ -222,7 +226,7 @@ def _create_dataframes(C_surface, flux_values, sol, x_grid):
     
     return df_C_surface, df_flux_values
 
-def solve_constant_diffusivity_model(diffusion_coeff, C_eq, L, T, dt, dx):
+def solve_constant_diffusivity_model(diffusion_coeff, C_eq, L, T, dt, dx, debug=False):
     """Solve the 2nd order differential equation of the mass diffusion problem.
 
     Solves with 2 boundary conditions and 1 initial condition using scipy's solve_ivp.
@@ -235,6 +239,7 @@ def solve_constant_diffusivity_model(diffusion_coeff, C_eq, L, T, dt, dx):
         T (float): Total time.
         dt (float): Time step size (used for output points).
         dx (float): Spatial step size.
+        debug (bool): If True, prints additional debugging information. Defaults to False.
 
     Returns:
         tuple: A tuple containing:
@@ -256,7 +261,8 @@ def solve_constant_diffusivity_model(diffusion_coeff, C_eq, L, T, dt, dx):
     df_C_surface, df_flux_values = _create_dataframes(C_surface, flux_values, sol, x_grid)
     
     # Calculate theoretical steady-state flux
-    steady_state_flux = diffusion_coeff * C_eq / L
-    print(f"Theoretical steady-state flux: {steady_state_flux:.3e}")
+    if debug:
+        steady_state_flux = diffusion_coeff * C_eq / L
+        print(f"Theoretical steady-state flux: {steady_state_flux:.3e}")
     
     return C_surface, flux_values, df_C_surface, df_flux_values

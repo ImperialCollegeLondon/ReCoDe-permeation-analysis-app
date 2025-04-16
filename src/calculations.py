@@ -1,14 +1,6 @@
-"""
-calculations.py
---------------------
-Module for performing time-lag analysis on permeation data.
-"""
-
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp
-from util import figsize_dict, set_plot_style, update_ticks
 
 # =============================================================================
 # TIME LAG ANALYSIS
@@ -99,10 +91,10 @@ def solve_constant_diffusivity_model(diffusion_coeff, C_eq, L, T, dt, dx, debug=
     sol, x_grid, Nx = _solve_diffusion_pde(diffusion_coeff, C_eq, L, T, dx, dt)
     
     # Prepare the concentration profile
-    C_surface = _prepare_concentration_profile(sol, C_eq)
+    C_surface = _prepare_concentration_profile(sol)
     
     # Calculate flux values
-    flux_values = _calculate_flux(diffusion_coeff, C_surface, dx, sol)
+    flux_values = _calculate_flux(diffusion_coeff, C_surface, dx)
     
     # Create DataFrames for the results
     df_C_surface, df_flux_values = _create_dataframes(C_surface, flux_values, sol, x_grid)
@@ -232,12 +224,11 @@ def _create_diffusion_ode(diffusion_coeff, dx, Nx, C_eq):
     
     return wrapped_diffusion_ode
 
-def _prepare_concentration_profile(sol, C_eq):
+def _prepare_concentration_profile(sol):
     """Prepare the concentration profile from the solution.
     
     Args:
         sol: Solution from solve_ivp.
-        C_eq (float): Equilibrium concentration.
         
     Returns:
         ndarray: Concentration profile as a function of position x and time t.
@@ -247,14 +238,13 @@ def _prepare_concentration_profile(sol, C_eq):
     
     return C_surface
 
-def _calculate_flux(diffusion_coeff, C_surface, dx, sol):
+def _calculate_flux(diffusion_coeff, C_surface, dx):
     """Calculate flux using Fick's first law.
     
     Args:
         diffusion_coeff (float): Diffusion coefficient.
         C_surface (ndarray): Concentration profile.
         dx (float): Spatial step size.
-        sol: Solution from solve_ivp.
         
     Returns:
         ndarray: Flux values at each time point.

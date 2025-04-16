@@ -55,16 +55,181 @@ def time_lag_analysis(df: pd.DataFrame, stabilisation_time_s: float, thickness: 
     
     return time_lag, diffusion_coefficient, permeability, solubility_coefficient, pressure, solubility, slope, intercept
 
-def flux_pde_const_D(D, C_eq, L, T, dt, dx):
+def _setup_grid(L, T, dx, dt):
+    """Set up spatial and time grids for PDE solution.
+    
+    Args:
+        L (float): Thickness of the polymer.
+        T (float): Total time.
+        dx (float): Spatial step size.
+        dt (float): Time step size.
+        
+    Returns:
+        tuple: Spatial grid, time grid, number of spatial points, number of time points.
+    """
+    # Calculate number of points
+    Nx = round(L / dx) + 1
+    Nt = round(T / dt) + 1
+    
+    # Create grids
+    x_grid = np.linspace(0, L, Nx)
+    t_grid = np.linspace(0, T, Nt)
+    
+    return x_grid, t_grid, Nx, Nt
+
+def _create_initial_condition(Nx, C_eq):
+    """Helper function to create the initial concentration profile.
+    
+    Args:
+        Nx (int): Number of spatial points.
+        C_eq (float): Equilibrium concentration.
+        
+    Returns:
+        ndarray: Initial concentration values at each spatial point.
+    """
+    C_init = np.zeros(Nx)
+    C_init[0] = C_eq  # Apply boundary condition at x=0 (feed side)
+    return C_init
+
+def _create_diffusion_ode(diffusion_coeff, dx, Nx, C_eq):
+    """Helper function to create the ODE function for the diffusion equation.
+    
+    Args:
+        diffusion_coeff (float): Diffusion coefficient.
+        dx (float): Spatial step size.
+        Nx (int): Number of spatial points.
+        C_eq (float): Equilibrium concentration for boundary condition.
+        
+    Returns:
+        function: ODE function for solve_ivp.
+    """
+    def diffusion_ode(t, C):
+        """ODE function for the diffusion equation using method of lines."""
+        dCdt = np.zeros_like(C)
+        
+        # Calculate second derivative using central difference for interior points
+        # Vector operation for interior points (1 to Nx-2)
+        dCdt[1:-1] = diffusion_coeff * (C[2:] - 2*C[1:-1] + C[:-2]) / (dx**2)
+        
+        # Apply boundary conditions
+        dCdt[0] = 0      # Fixed concentration at x=0 (feed side)
+        dCdt[-1] = 0     # Fixed concentration at x=L (permeate side)
+        
+        return dCdt
+    
+    return diffusion_ode
+
+def _solve_diffusion_pde(diffusion_coeff, C_eq, L, T, dx, dt):
+    """Solve the diffusion PDE using the method of lines.
+    
+    Args:
+        diffusion_coeff (float): Diffusion coefficient.
+        C_eq (float): Equilibrium concentration.
+        L (float): Thickness of the polymer.
+        T (float): Total time.
+        dx (float): Spatial step size.
+        dt (float): Time step size.
+        
+    Returns:
+        tuple: Solution object, spatial grid, number of spatial points.
+    """
+    x_grid, t_grid, Nx, Nt = _setup_grid(L, T, dx, dt)
+    
+    # Ensure dx and dt are consistent with L, Nx and T, Nt
+    dx = L / (Nx - 1)
+    dt = T / (Nt - 1)
+    
+    # Create initial condition and ODE function
+    initial_condition = _create_initial_condition(Nx, C_eq)
+    diffusion_ode = _create_diffusion_ode(diffusion_coeff, dx, Nx, C_eq)
+    
+    # Solve the PDE using solve_ivp
+    print("Solving diffusion equation...")
+    sol = solve_ivp(
+        diffusion_ode,
+        (0, T),
+        initial_condition,
+        method='BDF',
+        t_eval=t_grid,
+        rtol=1e-4,
+        atol=1e-6
+    )
+    
+    print(f"Diffusion equation solved ({len(sol.t)} time points, {Nx} spatial points)")
+    
+    return sol, x_grid, Nx
+
+def _prepare_concentration_profile(sol, C_eq):
+    """Prepare the concentration profile from the solution.
+    
+    Args:
+        sol: Solution from solve_ivp.
+        C_eq (float): Equilibrium concentration.
+        
+    Returns:
+        ndarray: Concentration profile as a function of position x and time t.
+    """
+    # Extract solution and transpose to get (time, position) shape
+    C_surface = sol.y.T
+    
+    # Ensure boundary conditions are exactly enforced
+    C_surface[:, 0] = C_eq  # x=0 boundary
+    C_surface[:, -1] = 0    # x=L boundary
+    
+    return C_surface
+
+def _calculate_flux(diffusion_coeff, C_surface, dx, sol):
+    """Calculate flux using Fick's first law.
+    
+    Args:
+        diffusion_coeff (float): Diffusion coefficient.
+        C_surface (ndarray): Concentration profile.
+        dx (float): Spatial step size.
+        sol: Solution from solve_ivp.
+        
+    Returns:
+        ndarray: Flux values at each time point.
+    """
+    # Calculate flux at x=L using Fick's first law: J = -D·(∂C/∂x)
+    flux_values = np.zeros(len(sol.t))
+    for i in range(len(sol.t)):
+        flux_values[i] = -diffusion_coeff * (C_surface[i, -1] - C_surface[i, -2]) / dx
+    
+    return flux_values
+
+def _create_dataframes(C_surface, flux_values, sol, x_grid):
+    """Create DataFrames for the concentration profile and flux values.
+    
+    Args:
+        C_surface (ndarray): Concentration profile.
+        flux_values (ndarray): Flux values.
+        sol: Solution from solve_ivp.
+        x_grid (ndarray): Spatial grid.
+        
+    Returns:
+        tuple: DataFrames for concentration profile and flux values.
+    """
+    # Concentration profile DataFrame
+    df_C_surface = pd.DataFrame(C_surface, columns=[f"x = {x:.3g}" for x in x_grid])
+    df_C_surface['Time'] = sol.t
+    df_C_surface = df_C_surface[['Time'] + [col for col in df_C_surface.columns if col != 'Time']]
+    
+    # Flux values DataFrame
+    df_flux_values = pd.DataFrame({
+        'Time': sol.t,
+        'Flux': flux_values
+    })
+    
+    return df_C_surface, df_flux_values
+
+def solve_constant_diffusivity_model(diffusion_coeff, C_eq, L, T, dt, dx):
     """Solve the 2nd order differential equation of the mass diffusion problem.
 
     Solves with 2 boundary conditions and 1 initial condition using scipy's solve_ivp.
-    The diffusion equation ∂C/∂t = D·∂²C/∂x² is solved using the method of lines,
-    where the spatial derivatives are discretized and the resulting system of ODEs
-    is solved using an ODE solver.
+    The diffusion equation ∂C/∂t = D·∂²C/∂x² is solved using the method of lines.
 
     Args:
-        D (float): Diffusion coefficient.
+        diffusion_coeff (float): Diffusion coefficient.
         C_eq (float): Equilibrium concentration.
         L (float): Thickness of the polymer.
         T (float): Total time.
@@ -78,113 +243,20 @@ def flux_pde_const_D(D, C_eq, L, T, dt, dx):
             - df_C_surface (pd.DataFrame): Concentration profile data
             - df_flux_values (pd.DataFrame): Flux profile data
     """
-    # ==================================================================
-    # SECTION 1: SETUP
-    # ==================================================================
+    # Solve the PDE and get basic parameters
+    sol, x_grid, Nx = _solve_diffusion_pde(diffusion_coeff, C_eq, L, T, dx, dt)
     
-    # Calculate number of spatial and time points for output
-    Nx = int(L / dx) + 1      # Number of grid points in space
-    Nt = int(T / dt) + 1      # Number of time points for output
+    # Prepare the concentration profile
+    C_surface = _prepare_concentration_profile(sol, C_eq)
     
-    # Create spatial and time grids
-    x_grid = np.linspace(0, L, Nx)     # Spatial grid [0, L]
-    t_grid = np.linspace(0, T, Nt)     # Time grid [0, T]
+    # Calculate flux values
+    flux_values = _calculate_flux(diffusion_coeff, C_surface, dx, sol)
     
-    # ==================================================================
-    # SECTION 2: DEFINE THE ODE SYSTEM
-    # ==================================================================
+    # Create DataFrames for the results
+    df_C_surface, df_flux_values = _create_dataframes(C_surface, flux_values, sol, x_grid)
     
-    # Initial condition: C(x,0) = 0 for all x except at x=0
-    def initial_condition():
-        """Create the initial concentration profile.
-        
-        Returns:
-            ndarray: Initial concentration values at each spatial point
-        """
-        C_init = np.zeros(Nx)
-        C_init[0] = C_eq      # Apply boundary condition at x=0 (feed side)
-        return C_init
-    
-    def diffusion_ode(t, C):
-        """ODE function for the diffusion equation using method of lines.
-        
-        This function calculates dC/dt at each spatial point based on the 
-        discretized diffusion equation: dC/dt = D·∂²C/∂x²
-        
-        Args:
-            t (float): Current time (not used directly but required by solve_ivp)
-            C (ndarray): Current concentration profile
-        
-        Returns:
-            ndarray: Rate of change of concentration (dC/dt) at each spatial point
-        """
-        # Create array to store rate of change at each point
-        dCdt = np.zeros_like(C)
-        
-        # Calculate second derivative using central difference for interior points
-        # ∂²C/∂x² ≈ (C[i+1] - 2·C[i] + C[i-1])/dx²
-        for i in range(1, Nx-1):
-            dCdt[i] = D * (C[i+1] - 2*C[i] + C[i-1]) / (dx**2)
-        
-        # Apply boundary conditions
-        dCdt[0] = 0      # Fixed concentration at x=0 (feed side)
-        dCdt[-1] = 0     # Fixed concentration at x=L (permeate side)
-        
-        return dCdt
-    
-    # ==================================================================
-    # SECTION 3: SOLVE THE PDE USING solve_ivp
-    # ==================================================================
-    
-    # Solve the PDE using solve_ivp
-    print("Solving diffusion equation...")
-    sol = solve_ivp(
-        diffusion_ode,                     # ODE function
-        (0, T),                            # Time span
-        initial_condition(),               # Initial condition
-        method='BDF',                      # Backward Differentiation Formula (good for stiff problems)
-        t_eval=t_grid,                     # Times to output solution
-        rtol=1e-4,                         # Relative tolerance
-        atol=1e-6                          # Absolute tolerance
-    )
-    
-    # Extract solution at requested time points
-    C_surface = sol.y.T  # Transpose to get (time, position) shape
-    
-    # Ensure boundary conditions are exactly enforced in the solution
-    C_surface[:, 0] = C_eq  # x=0 boundary
-    C_surface[:, -1] = 0    # x=L boundary
-    
-    # ==================================================================
-    # SECTION 4: CALCULATE FLUX
-    # ==================================================================
-    
-    # Calculate flux at x=L using Fick's first law: J = -D·(∂C/∂x)
-    # Approximated with backward difference: ∂C/∂x ≈ (C(L) - C(L-dx))/dx
-    flux_values = np.zeros(len(sol.t))
-    for i in range(len(sol.t)):
-        flux_values[i] = -D * (C_surface[i, -1] - C_surface[i, -2]) / dx
-    
-    # ==================================================================
-    # SECTION 5: POST-PROCESSING
-    # ==================================================================
-    
-    # Convert results to pandas DataFrames for easier data handling
-    
-    # Concentration profile DataFrame
-    df_C_surface = pd.DataFrame(C_surface, columns=[f"x = {x:.3g}" for x in x_grid])
-    df_C_surface['Time'] = sol.t
-    df_C_surface = df_C_surface[['Time'] + [col for col in df_C_surface.columns if col != 'Time']]
-    
-    # Flux values DataFrame
-    df_flux_values = pd.DataFrame({
-        'Time': sol.t,
-        'Flux': flux_values
-    })
-    
-    # Theoretical steady-state flux for reference (not used in the calculation)
-    steady_state_flux = D * C_eq / L
-    print(f"Diffusion equation solved ({len(sol.t)} time points, {Nx} spatial points)")
+    # Calculate theoretical steady-state flux
+    steady_state_flux = diffusion_coeff * C_eq / L
     print(f"Theoretical steady-state flux: {steady_state_flux:.3e}")
     
     return C_surface, flux_values, df_C_surface, df_flux_values

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from calculations import time_lag_analysis, flux_pde_const_D
+from calculations import time_lag_analysis, solve_constant_diffusivity_model
 from data_processing import load_data, preprocess_data, identify_stabilisation_time
 from visualisation import plot_time_lag_analysis, plot_flux_over_time, plot_concentration_location_profile, plot_concentration_profile
 from util import thickness_dict, qN2_dict, get_time_id
@@ -118,7 +118,7 @@ def time_lag_analysis_workflow(datapath: str, L_cm: float, d_cm: float, qN2_mlmi
     T = preprocessed_df.loc[stabilisation_index, 't / s']
     T_final = preprocessed_df['t / s'].iloc[-1]
     C_eq = solubility_coefficient * pressure
-    C_profile, flux, df_C, df_flux = flux_pde_const_D(D=diffusion_coefficient, C_eq=C_eq, L=L, T=T_final, dt=1, dx=L/50)
+    C_profile, flux, df_C, df_flux = solve_constant_diffusivity_model(diffusion_coeff=diffusion_coefficient, C_eq=C_eq, L=L, T=T_final, dt=1, dx=L/50)
     
     # Export data to .csv
     if save_data:

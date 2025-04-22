@@ -6,11 +6,11 @@
 
 Good data management is essential for reproducible research. When working with experimental data, consider these practices:
 
-1. **Consistent file naming**: Use descriptive, consistent naming schemes (e.g., `RUN_H_25C-100bar_7.xlsx` clearly indicates temperature and pressure conditions)
-2. **Data organization**: Organize data in a logical folder structure with clear separation between raw data and processed outputs
-3. **Metadata recording**: Document experimental conditions, sample details, and measurement parameters
-4. **Version control**: Track changes to your data processing scripts using version control systems like Git
-5. **Data backup**: Regularly back up your research data to prevent loss
+1. **Consistent file naming**: Use descriptive, consistent naming schemes (e.g., `RUN_H_25C-100bar_7.xlsx` clearly indicates temperature and pressure conditions).
+2. **Data organisation**: Organise data in a logical folder structure with clear separation between raw data and processed outputs.
+3. **Metadata recording**: Document experimental conditions, sample details, and measurement parameters.
+4. **Version control**: Track changes to your data processing scripts using version control systems such as Git.
+5. **Data backup**: Regularly back up your research data to prevent loss. Utilise cloud storage services (like OneDrive) when possible.
 
 ### Data Structure for Time-Lag Analysis
 
@@ -25,89 +25,67 @@ For permeation experiments specifically, data should include:
 
 ## Data Processing Workflow
 
-The application implements a data processing pipeline consisting of several key steps:
+The application implements a data processing pipeline in `data_processing.py` consisting of several key steps:
 
 ### 1. Loading Data
 
-Raw experimental data is loaded from Excel files using the [`load_data`](../src/data_processing.py) function:
-
-```python
-def load_data(file_path: str) -> pd.DataFrame:
-    """
-    Load data from a CSV file (.csv) or Excel file (.xlsx, .xls).
-    
-    Parameters:
-    file_path (str): Path to the file.
-    
-    Returns:
-    pd.DataFrame: Loaded data as a DataFrame.
-    """
-    if file_path.endswith('.csv'):
-        return pd.read_csv(file_path)
-    elif file_path.endswith('.xlsx') or file_path.endswith('.xls'):
-        return pd.read_excel(file_path)
-    else:
-        raise ValueError("Unsupported file format. Please provide a .csv, .xlxs or .xls file.")
-```
+Raw experimental data is loaded from Excel files using the [`load_data`](../src/data_processing.py) function.
 
 ### 2. Data Preprocessing
 
 The [`preprocess_data`](../src/data_processing.py) function performs several preprocessing steps:
-
+1. **Baseline correction**: Remove background signals from gas concentration measurements.
 ```python
-def preprocess_data(df: pd.DataFrame, d_cm: float, qN2_mlmin: float = None) -> pd.DataFrame:
-    """
-    Preprocess the loaded data.
-    
-    Parameters:
-    df (pd.DataFrame): Raw data.
-    d_cm (float): Thickness of the polymer in cm.
-    qN2_mlmin (float): Flow rate of N2 in ml/min. If None, use the column 'qN2 / ml min^-1' from the DataFrame.
-    
-    Returns:
-    pd.DataFrame: Preprocessed data.
-    """
-    # Implementation details...
+df['y_CO2_bl / ppm'] = df['y_CO2 / ppm'] - baseline
 ```
+2. **Pressure conversion**: Convert pressure readings to standard units (bar).
+```python
+df['P_cell / bar'] = df['P_cell / barg'] + 1.01325
+```
+3. **Flux calculation**: Calculate gas flux through the membrane from provided polymer disc thickness (`d_cm`) and N₂ sweeping gas flowrate (`qN2_mlmin`).
+```python
+# Calculate Area of disc
+A_cm2 = (math.pi * d_cm**2) / 4 # [cm^2]
 
-Key preprocessing steps include:
+# Specify mass flow rate of N2 in [ml/min]
+if qN2_mlmin is not None:
+    df['qN2 / ml min^-1'] = qN2_mlmin
+elif 'qN2 / ml min^-1' not in df.columns:
+    raise ValueError("Column 'qN2 / ml min^-1' does not exist in the DataFrame.")
 
-1. **Baseline correction**: Remove background signals from gas concentration measurements
-2. **Pressure conversion**: Convert pressure readings to standard units (bar)
-3. **Flux calculation**: Calculate gas flux through the membrane
-4. **Cumulative flux calculation**: Compute the integrated flux over time
+# Calculate flux
+if unit == 'cm^3 cm^-2 s^-1' or unit == 'None':
+    df['flux / cm^3(STP) cm^-2 s^-1'] = (df['qN2 / ml min^-1'] / 60) * (df['y_CO2_bl / ppm'] * 1e-6) / A_cm2
+```
+4. **Cumulative flux calculation**: Integrate experimental flux over time to obtain cumulative flux.
+```python
+df['cumulative flux / cm^3(STP) cm^-2'] = (df['flux / cm^3(STP) cm^-2 s^-1'] * df['t / s'].diff().fillna(0)).cumsum()
+```
 
 ### 3. Stabilization Time Detection
 
-An important aspect of time-lag analysis is determining when steady-state diffusion has been reached:
-
+An important aspect of time-lag analysis is determining when steady-state diffusion has been reached. This is performed in `identify_stabilisation_time` function. The following steps are performed:
+1. Calculates the gradient of the specified data column.
 ```python
-def identify_stabilisation_time(df: pd.DataFrame, column: str, window: int = 5, threshold: float = 0.001) -> float:
-    """
-    Identify where flux has stabilised by comparing the rolling fractional changes of gradient of a specified column with respect to 't / s'.
-    
-    Parameters:
-    df (pd.DataFrame): Preprocessed data.
-    column (str): Column name to check for stabilisation.
-    window (int): Window size for rolling calculation.
-    threshold (float): Fractional threshold for determining stabilisation.
-    
-    Returns:
-    stabilisation_time: Time corresponding to where the specified column has stabilised.
-    """
-    # Implementation details...
+df['gradient'] = (df[column].diff() / df['t / s'].diff())
+```
+2. Examines changes in this gradient over a rolling window.
+```python
+df['pct_change_mean'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).mean()
+df['pct_change_min'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).min()
+df['pct_change_max'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).max()
+df['pct_change_median'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).median()
+```
+3. Identifies when changes fall below a specified threshold.
+```python
+stabilisation_index = df[((df['pct_change_mean'] <= threshold))].index[0]
+stabilisation_time = df.loc[stabilisation_index, 't / s']
 ```
 
-This automated approach:
-- Calculates the gradient of the specified data column
-- Examines changes in this gradient over a rolling window
-- Identifies when changes fall below a specified threshold
+## Input, Output, and Configuration
 
-## File Structure and Configuration
-
-### Data Files
-
-The application expects data files in the `data/` directory with experimental data organized in Excel files:
+### Data Input
+The application expects data files in the `data/` directory with experimental data organised in Excel files. Sample data files are available in this location for reference.
 
 ```
 data/
@@ -119,7 +97,28 @@ data/
     ...
 ```
 
-### Configuration Parameters
+When using the application, ensure your data files adhere to the following specifications:
+
+1. Required columns: Each file must contain, at minimum, the following data columns with the specified headers:
+    *   `t / s`: Time, measured in seconds.
+    *   `P_cell / barg`: Cell pressure, measured in bar gauge.
+    *   `T / °C`: Temperature, measured in degrees Celsius.
+    *   `y_CO2 / ppm`: Carbon dioxide concentration, measured in parts per million.
+
+2. Unit consistency: Ensure that units are consistent across all measurements within and between files intended for comparative analysis.
+
+3.  File format: Data must be provided in either Excel (`.xlsx`, `.xls`) or CSV (`.csv`) format.
+
+### Output Data
+
+Following the pre-processing steps in `preprocess_data.py`, the main analysis is performed in `calculation.py` (explained in depth in `04-TimelagAnalysis-Implementation`). These steps are encompassed in the complete workflow function `time_lag_analysis_workflow` in `time_lag_analysis.py`. The workflow will be explained in depth in `08-Application-Workflow`. This workflow can generate several output files:
+
+1. **Preprocessed data**: Contains the cleaned and transformed experimental data.
+2. **Time lag analysis results**: Contains the calculated parameters (diffusion coefficient, permeability, etc.).
+3. **Concentration profiles**: Shows how gas concentration changes with position and time.
+4. **Flux profiles**: Shows the calculated gas flux over time.
+
+### Experimental Metadata Configuration
 
 The [`util.py`](../src/util.py) file contains configuration dictionaries for experimental parameters:
 
@@ -135,77 +134,33 @@ qN2_dict = {
 }  # [ml min^-1]
 ```
 
-These dictionaries provide essential metadata for each experiment:
+The dictionaries provide essential metadata for each experiment:
 - `thickness_dict`: Membrane thickness in cm
 - `qN2_dict`: Nitrogen flow rate in ml/min
 
-## Working with the Application
-
-### Data Input Requirements
-
-When using the application, ensure your data file:
-
-1. Contains the following columns:
-   - `t / s`: Time in seconds
-   - `P_cell / barg`: Pressure in barg
-   - `T / °C`: Temperature in degrees Celsius
-   - `y_CO2 / ppm`: CO2 concentration in ppm
-
-2. Has consistent units across measurements
-
-3. Is in Excel (.xlsx or .xls) or CSV (.csv) format
-
-### Output Data
-
-The application can generate several output files:
-
-1. **Preprocessed data**: Contains the cleaned and transformed experimental data
-2. **Time lag analysis results**: Contains the calculated parameters (diffusion coefficient, permeability, etc.)
-3. **Concentration profiles**: Shows how gas concentration changes with position and time
-4. **Flux profiles**: Shows the calculated gas flux over time
+This separation centralises the metadata in `util.py`, enhancing maintainability. It ensures consistency and simplifies updates across the analysis. For example, when calculating permeability for `'RUN_H_25C-100bar_7'`, the code retrieves the thickness `0.1` directly from `thickness_dict`. If this value needed correction, it would only require changing it once in `util.py`.
 
 
 ## Data Flow Diagram
 
-```
-+----------------+     +------------------+     +---------------------+
-| Raw Data Files |---->| Data Loading     |---->| Data Preprocessing  |
-| (.xlsx, .csv)  |     | load_data()      |     | preprocess_data()   |
-+----------------+     +------------------+     +---------------------+
-                                                          |
-                       +------------------+               v
-                       | Membrane Data    |-----> +---------------------+
-                       | thickness_dict   |       | Data Transformation |
-                       | qN2_dict         |       | - Baseline correction
-                       +------------------+       | - Unit conversion
-                                                  | - Flux calculation
-                                                  +---------------------+
-                                                          |
-                                                          v
-                                           +-------------------------------+
-                                           | Stabilization Detection       |
-                                           | identify_stabilisation_time() |
-                                           +-------------------------------+
-                                                          |
-                                                          v
-                                           +-------------------------------+
-                                           | Time-Lag Analysis             |
-                                           | time_lag_analysis_workflow()  |
-                                           +-------------------------------+
-                                                          |
-                       +-------------------------------------------------+
-                       |                   |                             |
-                       v                   v                             v
-              +----------------+  +----------------+           +------------------+
-              | Preprocessed   |  | Analysis       |           | Profile Data     |
-              | Data (.csv)    |  | Results (.csv) |           | (.csv)           |
-              +----------------+  +----------------+           +------------------+
+
+```mermaid
+flowchart TD
+    A["Raw Data Files (.xlsx, .csv)"] --> B["Data Loading: <br>load_data()"]
+    B --> C["Data Preprocessing: <br>preprocess_data()"]
+    D["Membrane Data:<br>thickness_dict <br>qN2_dict"] --> E["Data Transformation:<br>- Baseline correction <br>- Unit conversion <br>- Flux calculation"]
+    C --> E
+    E --> F["Stabilisation Detection:<br>identify_stabilisation_time()"]
+    F --> G["Time-Lag Analysis:<br>time_lag_analysis_workflow()"]
+    G --> H["Preprocessed Data (.csv)"]
+    G --> I["Analysis Results (.csv)"]
+    G --> J["Profile Data (.csv)"]
 ```
 
 ## Extending the Data Processing Pipeline
 
 To implement your own data processing steps:
 
-1. Add new functions to [`data_processing.py`](../src/data_processing.py)
-2. Integrate them into the [`preprocess_data`](../src/data_processing.py) function
-3. Update the [`time_lag_analysis_workflow`](../src/time_lag_analysis.py) function to use your new processing steps
+1. Add new functions to [`data_processing.py`](../src/data_processing.py).
+2. Integrate them into the [`preprocess_data`](../src/data_processing.py) function.
+3. Update the [`time_lag_analysis_workflow`](../src/time_lag_analysis.py) function to use your new processing steps.

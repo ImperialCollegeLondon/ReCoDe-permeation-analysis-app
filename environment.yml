@@ -1,13 +1,15 @@
-name: permeationenv
+name: permeation-env
 channels:
-  - conda-forge
+  - bioconda
   - defaults
+  - conda-forge
 dependencies:
-  - python>=3.8
-  - customtkinter
+  - python==3.12
   - matplotlib
   - numpy
   - pandas
-  - pip:
-    - pillow
-    - scipy
+  - pillow
+  - scipy
+  - openpyxl
+  - conda-forge::darkdetect
+  - bioconda::customtkinter

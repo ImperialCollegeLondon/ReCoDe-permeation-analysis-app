@@ -1,7 +1,7 @@
 # Time Lag Analysis: Theoretical Foundation
 
 ## TLDR
-The time-lag method allows us to calculate both the diffusion coefficient (D) and solubility coefficient (S) from a single gas permeation experiment. By plotting cumulative gas flux versus time, we observe a straight line during steady-state. The x-intercept of this line is the "time lag" $\theta$v, from which we calculate $D = \frac{L^2}{6\theta}$ where $L$ is membrane thickness. The slope gives permeability $P$, allowing us to determine $S = \frac{P}{D}$. This technique, pioneered by Daynes (1920) and Barrer (1939), is fundamental for characterising gas transport through membranes.
+The time-lag method determines a material's diffusion coefficient $(D)$ and solubility coefficient $(S)$ from a single gas permeation experiment. Plotting cumulative permeated flux versus time reveals a linear steady-state region. Extrapolating this line to the time axis yields the 'time lag' $(\theta)$, allowing calculation of the diffusion coefficient: $D = L^2 / (6\theta)$, where $L$ is membrane thickness. The slope of the steady-state line relates directly to the permeability $(P)$, and since $P = D \times S$, the solubility coefficient is found via $S = P/D$. This technique, pioneered by Daynes (1920) and Barrer (1939), is fundamental for characterising gas transport in membranes.
 
 
 ## Introduction to Gas Transport Phenomena
@@ -14,8 +14,8 @@ The time-lag method was first developed and applied to gas diffusion studies in 
 
 These works established the theoretical foundation that remains the basis for contemporary membrane permeation analysis.
 The time-lag method is a technique used to determine two key transport parameters simultaneously:
-- Diffusion coefficient ($D$)
-- Solubility coefficient ($S$)
+- Diffusion coefficient $(D)$
+- Solubility coefficient $(S)$
 
 Together, these parameters determine the material's permeability:
 
@@ -42,19 +42,21 @@ The time-lag method is based on Fick's laws of diffusion:
    $$\frac{\partial C}{\partial t} = D \frac{\partial^2 C}{\partial x^2}$$
 
    For a membrane of thickness $L$ with the following boundary conditions:
-   - $C(0,t) = C_1$ (upstream/feed side concentration)
-   - $C(L,t) = 0$ (downstream/permeate side concentration, initially evacuated)
+   - $C(0,t) = C_{eq}$ (upstream side concentration)
+   - $C(L,t) = 0$ (downstream side concentration, assumed to be perfectly evacuated)
    - $C(x,0) = 0$ (initial condition: no gas in membrane)
+
+<!-- TODO: Add a gif to show the concentration as a function of x amd t -->
 
 ### The Time-Lag Derivation
 
-<!-- TODO: Add a diagram to show the concentration as a function of x -->
+<!-- TODO: Add a gif to show the concentration as a function of x -->
 
-When gas permeation reaches steady state, the cumulative amount of gas that has permeated through the membrane ($Q$) follows:
+When gas permeation reaches steady state, the cumulative amount of gas that has permeated through the membrane $(Q)$ follows:
 
 $$Q(t) = \frac{DC_1}{L}\left(t - \frac{L^2}{6D}\right)$$
 
-The time-lag ($\theta$) is defined as the x-intercept of the extrapolated steady-state line and is related to the diffusion coefficient:
+The time-lag $(\theta)$ is defined as the x-intercept of the extrapolated steady-state line and is related to the diffusion coefficient:
 
 $$\theta = \frac{L^2}{6D}$$
 
@@ -62,17 +64,17 @@ Therefore:
 
 $$D = \frac{L^2}{6\theta}$$
 
-The steady-state flux ($J_{\infty}$) is related to permeability ($P$):
+The permeability ($P$) is related to the steady-state flux ($J_{\infty}$) and pressure difference $(\Delta p)$ :
 
-$$J_{\infty} = \frac{P \cdot \Delta p}{L}$$
+$$ P = \frac{L \times J_{\infty}}{\Delta p} $$
 
-Where:
-- $P$ is permeability
-- $\Delta p$ is pressure difference
-
-Since $P = D \times S$, we can calculate solubility:
+ solubility coefficient $(S)$ can be calculated from $P$ and $D$ based on the definition for $P$ ($P = S \times D$):
 
 $$S = \frac{P}{D}$$
+
+Upstream solubility $(C_{eq})$ can be calculated:
+
+$$C_{eq} = S \times {\Delta p}$$
 
 ## Units and Conventions
 
@@ -88,7 +90,7 @@ The key parameters have these units:
 - Diffusion coefficient ($D$): [cm²/s]
 - Permeability ($P$): [cm³(STP)·cm/(cm²·s·bar)]
 - Solubility coefficient ($S$): [cm³(STP)/(cm³·bar)]
-- Time lag ($\theta$): [s]
+- Time lag $(\theta)$: [s]
 
 Note that STP refers to "Standard Temperature and Pressure" conditions (typically 0°C and 1 bar), which is important when reporting gas volumes. The units chosen reflect common conventions in membrane science and gas permeation studies, facilitating comparison with literature values.
 
@@ -102,7 +104,7 @@ In practice:
 
 Each method ensures that the concentration at the downstream face of the membrane remains effectively zero (or negligibly small compared to the upstream concentration), maintaining the boundary condition $C(L,t) = 0$ needed for the time-lag analysis.
 
-By plotting the cumulative amount of permeated gas vs. time, and extrapolating the steady-state line back to the time axis, the time-lag ($\theta$) is determined.
+By plotting the cumulative amount of permeated gas vs. time, and extrapolating the steady-state line back to the time axis, the time-lag $\theta$ is determined.
 
 <!-- TODO: Add example -->
 

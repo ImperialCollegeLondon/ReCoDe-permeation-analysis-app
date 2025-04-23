@@ -29,7 +29,7 @@ The application implements a data processing pipeline in `data_processing.py` co
 
 ### 1. Loading Data
 
-Raw experimental data is loaded from Excel files using the [`load_data`](../src/data_processing.py) function.
+Raw experimental data is loaded from Excel files using the [`load_data`](../src/data_processing.py#L10) function.
 
 ### 2. Data Preprocessing
 

@@ -99,7 +99,8 @@ def solve_constant_diffusivity_model(diffusion_coeff: float, C_eq: float, L: flo
     # Solve the PDE and get basic parameters
     sol, x_grid, Nx = _solve_diffusion_pde(diffusion_coeff, C_eq, L, T, dx, dt)
     
-    # Prepare the concentration profile
+    # Transpose the solution array to get more common dimensions (time, position) instead of (position, time)
+    # for easier visualisation and data processing in downstream functions
     C_surface = _prepare_concentration_profile(sol)
     
     # Calculate flux values

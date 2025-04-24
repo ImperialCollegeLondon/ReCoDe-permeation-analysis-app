@@ -6,7 +6,7 @@ The time-lag method determines a material's diffusion coefficient $(D)$ and solu
 
 ## Introduction to Gas Transport Phenomena
 
-Gas transport through membranes is a fundamental process in many areas of chemical engineering, materials science, and environmental applications. Understanding and quantifying this transport is essential for designing materials for gas separation, barrier materials, and controlled release systems.
+Gas transport through membranes is a fundamental process in many areas of chemical engineering, materials science, and environmental applications. Understanding and quantifying this transport is essential for designing materials for gas separation, barrier materials, and controlled release systems. The gas-polymer system uses throughout this exemplar is carbon dioxide (CO$_2$) in High-Density Polyethylene (HDPE).
 
 ## The Time-Lag Method
 
@@ -27,26 +27,56 @@ $$P = D \times S$$
 
 The time-lag method is based on Fick's laws of diffusion:
 
-1. **Fick's First Law**: Relates the diffusive flux to the concentration gradient
+1. **Fick's First Law**: 
+
+   This relates the diffusive flux to the concentration gradient.
    
    $$J = -D \frac{\partial C}{\partial x}$$
 
-   Where:
-   - $J$ is the diffusion flux [mol/(m²·s)]
-   - $D$ is the diffusion coefficient [m²/s]
-   - $C$ is the concentration [mol/m³]
-   - $x$ is position [m]
+   where:
+   - $J$ is the diffusion flux 
+   - $D$ is the diffusion coefficient 
+   - $C$ is the concentration 
+   - $x$ is position 
 
-2. **Fick's Second Law**: Describes how concentration changes with time due to diffusion
+2. **Fick's Second Law**: 
+   
+   This describes how concentration changes with time due to diffusion.
 
    $$\frac{\partial C}{\partial t} = D \frac{\partial^2 C}{\partial x^2}$$
 
-   For a membrane of thickness $L$ with the following boundary conditions:
+3. Boundary Conditions:
+
+   For a membrane of thickness $L$ with the following boundary and initial conditions:
    - $C(0,t) = C_{eq}$ (upstream side concentration)
    - $C(L,t) = 0$ (downstream side concentration, assumed to be perfectly evacuated)
    - $C(x,0) = 0$ (initial condition: no gas in membrane)
 
-<!-- TODO: Add a gif to show the concentration as a function of x amd t -->
+Figures 1 and 2 below visualise the solution to Fick's Second Law for the specified boundary conditions, obtained using the numerical methods described in [`05-Python-PDE-Implementation`](05-Python-PDE-Implementation.md). Figure 1 presents the concentration evolution $C(x,t)$ as a heatmap, while Figure 2 shows concentration profiles $C(x)$ at discrete time points. These specific plots correspond to the parameters derived from the `RUN_H_25C-100bar_9.csv` dataset.
+
+![Concentration Heatmap](assets/RUN_H_25C-100bar_9_Concentration-vs-time-heatmap.png)
+
+*Figure 1: Concentration profile evolution over time. 
+
+![Concentration Profiles at Different Times](assets/RUN_H_25C-100bar_9_Concentration-vs-time-lines.png)
+
+*Figure 2: Concentration profiles at specific time points. 
+
+Observing the figures provides insights into the diffusion process governed by Fick's laws and the specified conditions:
+
+* **Fixed ends (boundary conditions):**
+   * Figure 1: The bright red color along the left edge ($x=0$) shows the constant high gas concentration ($C_{eq}$) maintained on the upstream side. The dark blue color along the right edge ($x=L$) shows the near-zero concentration maintained on the downstream side.
+   * Figure 2: Every concentration line starts at the high value $C_{eq}$ on the left ($x=0$) and drops to zero on the right ($x=L$). This confirms the fixed concentrations at the membrane boundaries throughout the experiment.
+* **Empty start  (initial condition):**
+   * Figure 1: The bottom edge of the heatmap (representing $t=0$) is blue across the membrane width (for $x>0$), indicating that initially, there was no gas dissolved in the membrane.
+   * Figure 2: The "t=0" line is flat at zero concentration (except for the upstream boundary at $x=0$), showing the initial empty state of the membrane.
+* **Gas spreading over time (transient diffusion):**
+   * Figure 1: As you move upwards (increasing time), the color gradient (from red to blue) moves across the membrane from left to right. This indicates the gas gradually diffusing through the material.
+   * Figure 2: The lines for early times (like t=75s, t=238s) are steeply curved, especially near the left side ($x=0$). This shows that the concentration is changing rapidly as the gas first enters and spreads.
+* **Reaching a balance (steady state):**
+   * Figure 1: At later times (towards the top of the heatmap), the color pattern stops changing significantly with time. The gradient becomes stable.
+   * Figure 2: The concentration lines become less curved over time. The line for t=7530s is almost perfectly straight. A straight line profile indicates that the rate of gas entering and leaving any section of the membrane has become constant – this is the steady state.
+
 
 ### The Time-Lag Derivation
 
@@ -78,13 +108,12 @@ $$C_{eq} = S \times {\Delta p}$$
 
 ## Units and Conventions
 
-While the theoretical equations are typically presented using SI units, in practice, different fields often use specialised unit systems. In this application, we use the following units:
+In this application, we use the following units:
 
 - Length: centimeters [cm]
 - Time: seconds [s]
 - Pressure: bar [bar]
-- Volume: standard cubic centimeters [cm³(STP)]
-- Temperature: degrees Celsius [°C]
+- Amount of substance: standard cubic centimeters at "Standard Temperature and Pressure" [cm³(STP)]. This unit, representing the volume a quantity of gas would occupy at STP (0°C, 1 atm), functions as a measure of amount (like moles). Although an older convention, it remains prevalent in membrane science and engineering, and is therefore used throughout this exemplar.
 
 The key parameters have these units:
 - Diffusion coefficient ($D$): [cm²/s]
@@ -92,12 +121,10 @@ The key parameters have these units:
 - Solubility coefficient ($S$): [cm³(STP)/(cm³·bar)]
 - Time lag $(\theta)$: [s]
 
-Note that STP refers to "Standard Temperature and Pressure" conditions (typically 0°C and 1 bar), which is important when reporting gas volumes. The units chosen reflect common conventions in membrane science and gas permeation studies, facilitating comparison with literature values.
-
 ## Experimental Implementation
 
 In practice:
-1. A gas is introduced on one side of a membrane at time $t=0$. The downstream pressure is maintained by using a continuously sweeping flow of nitrogen (N2).
+1. A gas is introduced on one side of a membrane at time $t=0$. The downstream pressure is maintained by using a continuously sweeping flow of nitrogen (N$_2$).
 2. The gas flux through the membrane is measured over time on the permeate side
 3. Initially, there is a transient state as the concentration profile develops in the membrane
 4. Eventually, a steady-state is reached with a constant flux

@@ -54,13 +54,13 @@ The time-lag method is based on Fick's laws of diffusion:
 
 Figures 1 and 2 below visualise the solution to Fick's Second Law for the specified boundary conditions, obtained using the numerical methods described in [`05-Python-PDE-Implementation`](05-Python-PDE-Implementation.md). Figure 1 presents the concentration evolution $C(x,t)$ as a heatmap, while Figure 2 shows concentration profiles $C(x)$ at discrete time points. These specific plots correspond to the parameters derived from the `RUN_H_25C-100bar_9.csv` dataset.
 
-![Concentration Heatmap](assets/RUN_H_25C-100bar_9_Concentration-vs-time-heatmap.png)
+<img src="assets/RUN_H_25C-100bar_9_Concentration-vs-time-heatmap.png" alt="Concentration Heatmap" width="600">
 
-*Figure 1: Concentration profile evolution over time. 
+*Figure 1: Concentration profile evolution over time.*
 
-![Concentration Profiles at Different Times](assets/RUN_H_25C-100bar_9_Concentration-vs-time-lines.png)
+<img src="assets/RUN_H_25C-100bar_9_Concentration-vs-time-lines.png" alt="Concentration Profiles at Different Times" width="600">
 
-*Figure 2: Concentration profiles at specific time points. 
+*Figure 2: Concentration profiles at specific time points.*
 
 Observing the figures provides insights into the diffusion process governed by Fick's laws and the specified conditions:
 
@@ -80,7 +80,9 @@ Observing the figures provides insights into the diffusion process governed by F
 
 ### The Time-Lag Derivation
 
-<!-- TODO: Add a gif to show the concentration as a function of x -->
+<img src="assets/time-lag-analysis-plot.png" alt="Time Lag Analysis Plot" width="600">
+
+*Figure 3:  Graphical determination of the time lag $(\theta)$ by extrapolating the linear steady-state region of the cumulative flux curve to the time axis [3].*
 
 When gas permeation reaches steady state, the cumulative amount of gas that has permeated through the membrane $(Q)$ follows:
 
@@ -119,6 +121,7 @@ The key parameters have these units:
 - Diffusion coefficient ($D$): [cm²/s]
 - Permeability ($P$): [cm³(STP)·cm/(cm²·s·bar)]
 - Solubility coefficient ($S$): [cm³(STP)/(cm³·bar)]
+- Solubility ($C_{eq}$): [cm³(STP)/cm³]
 - Time lag $(\theta)$: [s]
 
 ## Experimental Implementation
@@ -161,3 +164,5 @@ These limitations highlight the importance of careful experimental design and th
 1. Daynes, H.A. "The process of diffusion through a rubber membrane." *Royal Society Proceedings*, 97 (1920), pp. 286-307.
 
 2. Barrer, R.M. "Permeation, diffusion and solution of gases in organic polymers." *Transactions of the Faraday Society*, 35 (1939), pp. 628-643.
+
+3. Paul, D.R. "Time Lag Method for Mass Transport Properties Evaluation in GS." In: Drioli, E., Giorno, L. (eds) *Encyclopedia of Membranes*. Springer, Berlin, Heidelberg (2016).

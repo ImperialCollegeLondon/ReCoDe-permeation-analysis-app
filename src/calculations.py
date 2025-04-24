@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from scipy.integrate import solve_ivp
+from typing import Any, Callable
 
 # =============================================================================
 # TIME LAG ANALYSIS
@@ -65,7 +66,7 @@ def time_lag_analysis(df: pd.DataFrame, stabilisation_time_s: float, thickness: 
 # DIFFUSION EQUATION SOLVER
 # =============================================================================
 
-def solve_constant_diffusivity_model(diffusion_coeff, C_eq, L, T, dt, dx, debug=False):
+def solve_constant_diffusivity_model(diffusion_coeff: float, C_eq: float, L: float, T: float, dt: float, dx: float, debug: bool = False) -> tuple:
     """Solve the diffusion PDE with constant diffusion coefficient.
 
     Solves the transient diffusion equation (Fick's second law) for a membrane:
@@ -118,7 +119,7 @@ def solve_constant_diffusivity_model(diffusion_coeff, C_eq, L, T, dt, dx, debug=
 # HELPER FUNCTIONS FOR DIFFUSION SOLVER
 # =============================================================================
 
-def _solve_diffusion_pde(diffusion_coeff, C_eq, L, T, dx, dt):
+def _solve_diffusion_pde(diffusion_coeff: float, C_eq: float, L: float, T: float, dx: float, dt: float) -> tuple:
     """Solve the diffusion PDE using the method of lines.
     
     Args:
@@ -161,7 +162,7 @@ def _solve_diffusion_pde(diffusion_coeff, C_eq, L, T, dx, dt):
     
     return sol, x_grid, Nx
 
-def _setup_grid(L, T, dx, dt):
+def _setup_grid(L: float, T: float, dx: float, dt: float) -> tuple:
     """Set up spatial and time grids for PDE solution.
     
     Args:
@@ -187,7 +188,7 @@ def _setup_grid(L, T, dx, dt):
     
     return x_grid, t_grid, Nx, Nt
 
-def _create_initial_condition(Nx, C_eq):
+def _create_initial_condition(Nx: int, C_eq: float) -> np.ndarray:
     """Create the initial concentration profile.
     
     Args:
@@ -201,7 +202,7 @@ def _create_initial_condition(Nx, C_eq):
     C_init[0] = C_eq  # Apply boundary condition at x=0 (feed side)
     return C_init
 
-def _diffusion_ode(t, C, diffusion_coeff, dx):
+def _diffusion_ode(t: float, C: np.ndarray, diffusion_coeff: float, dx: float) -> np.ndarray:
     """Calculate concentration changes for the diffusion equation.
     
     Implements the right-hand side of the ODE system resulting from
@@ -224,7 +225,7 @@ def _diffusion_ode(t, C, diffusion_coeff, dx):
     
     return dCdt
 
-def _create_diffusion_ode(diffusion_coeff, dx, Nx, C_eq):
+def _create_diffusion_ode(diffusion_coeff: float, dx: float, Nx: int, C_eq: float) -> Callable:
     """Create a wrapped ODE function with fixed parameters.
     
     Args:
@@ -236,13 +237,13 @@ def _create_diffusion_ode(diffusion_coeff, dx, Nx, C_eq):
     Returns:
         function: ODE function for solve_ivp with fixed parameter values.
     """
-    def wrapped_diffusion_ode(t, C):
+    def wrapped_diffusion_ode(t: float, C: np.ndarray) -> np.ndarray:
         """Wrapper for the diffusion ODE function with fixed parameters."""
         return _diffusion_ode(t, C, diffusion_coeff, dx)
     
     return wrapped_diffusion_ode
 
-def _prepare_concentration_profile(sol):
+def _prepare_concentration_profile(sol: Any) -> np.ndarray:
     """Process the solution into a concentration profile.
     
     Args:
@@ -256,7 +257,7 @@ def _prepare_concentration_profile(sol):
     
     return C_surface
 
-def _calculate_flux(diffusion_coeff, C_surface, dx):
+def _calculate_flux(diffusion_coeff: float, C_surface: np.ndarray, dx: float) -> np.ndarray:
     """Calculate flux using Fick's first law.
     
     Args:
@@ -272,7 +273,7 @@ def _calculate_flux(diffusion_coeff, C_surface, dx):
     
     return flux_values
 
-def _create_dataframes(C_surface, flux_values, sol, x_grid):
+def _create_dataframes(C_surface: np.ndarray, flux_values: np.ndarray, sol: Any, x_grid: np.ndarray) -> tuple:
     """Create DataFrames for the concentration profile and flux values.
     
     Args:

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from scipy.integrate import solve_ivp
-from typing import Any, Callable
+from typing import Any
 
 # =============================================================================
 # TIME LAG ANALYSIS
@@ -142,18 +142,18 @@ def _solve_diffusion_pde(diffusion_coeff: float, C_eq: float, L: float, T: float
     dx = L / (Nx - 1)
     dt = T / (Nt - 1)
     
-    # Create initial condition and ODE function
+    # Create initial condition
     initial_condition = _create_initial_condition(Nx, C_eq)
-    diffusion_ode = _create_diffusion_ode(diffusion_coeff, dx, Nx, C_eq)
     
     # Solve the PDE using solve_ivp
     print("Solving diffusion equation...")
     sol = solve_ivp(
-        diffusion_ode,
+        _diffusion_ode,
         (0, T),
         initial_condition,
         method='BDF',
         t_eval=t_grid,
+        args=(diffusion_coeff, dx),
         rtol=1e-4,
         atol=1e-6
     )
@@ -224,24 +224,6 @@ def _diffusion_ode(t: float, C: np.ndarray, diffusion_coeff: float, dx: float) -
     dCdt[1:-1] = diffusion_coeff * (C[2:] - 2*C[1:-1] + C[:-2]) / (dx**2)
     
     return dCdt
-
-def _create_diffusion_ode(diffusion_coeff: float, dx: float, Nx: int, C_eq: float) -> Callable:
-    """Create a wrapped ODE function with fixed parameters.
-    
-    Args:
-        diffusion_coeff: Diffusion coefficient.
-        dx: Spatial step size.
-        Nx: Number of spatial points.
-        C_eq: Equilibrium concentration for boundary condition.
-        
-    Returns:
-        function: ODE function for solve_ivp with fixed parameter values.
-    """
-    def wrapped_diffusion_ode(t: float, C: np.ndarray) -> np.ndarray:
-        """Wrapper for the diffusion ODE function with fixed parameters."""
-        return _diffusion_ode(t, C, diffusion_coeff, dx)
-    
-    return wrapped_diffusion_ode
 
 def _prepare_concentration_profile(sol: Any) -> np.ndarray:
     """Process the solution into a concentration profile.

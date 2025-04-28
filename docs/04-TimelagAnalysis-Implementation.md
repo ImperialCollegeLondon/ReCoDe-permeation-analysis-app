@@ -35,7 +35,7 @@ This fits the data to the linear equation $y = mx + c$, where:
 - $m$ is the `slope` variable
 - $c$ is the `intercept` variable
 
-The variables returned from `polyfit` has imoprtant physical meaning:
+The variables returned from `polyfit` have important physical meaning:
 
 -   `slope`: Represents the steady-state flux through the membrane.
 -   `intercept`: Represents the y-intercept of the extrapolated steady-state line. This is important for calculating the time lag.

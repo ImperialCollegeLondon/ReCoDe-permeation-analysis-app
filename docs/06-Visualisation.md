@@ -6,7 +6,7 @@ This document explains how the scientific visualisations are implemented in the 
 
 Scientific visualisation is a crucial component of the time lag analysis workflow, helping researchers:
 
-- visualise the time lag determination process
+- Visualise the time lag determination process
 - Examine concentration profiles within the membrane
 - Compare experimental and theoretical flux profiles
 - Validate results through visual inspection

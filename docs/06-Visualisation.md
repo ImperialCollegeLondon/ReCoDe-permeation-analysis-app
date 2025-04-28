@@ -93,3 +93,5 @@ Using this approach of seprate plotting functions and a style-setting function o
 2. **Consistent Styling**: All plots have a cohesive style.
 3. **Customisability**: Functions accept optional figure and axes objects for further customization.
 5. **Integration**: Seamlessly integrates with the analysis workflow.
+
+This approach with independent plotting functions simplifies integration into the overall workflow and the GUI, which are discussed further in [`08-Application-Workflow`](08-Application-Workflow.md) and [`07-GUI-Implementation`](07-GUI-Implementation.md), respectively."

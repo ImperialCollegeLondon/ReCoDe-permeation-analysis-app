@@ -56,7 +56,7 @@ The following text-based diagram illustrates how the components work together:
 
 ## The Workflow Function
 
-The `time_lag_analysis_workflow()` function takes these key parameters:
+The `time_lag_analysis_workflow` function takes these key parameters:
 - `datapath`: Path to experimental data file
 - `L_cm`: Membrane thickness
 - `d_cm`: Membrane diameter

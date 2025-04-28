@@ -43,7 +43,7 @@ The following text-based diagram illustrates how the components work together:
 
 - **Data Processing**: `load_data`, `preprocess_data`, `identify_stabilisation_time`
 - **Time Lag Analysis**: `time_lag_analysis`
-- **PDE Solution**: `flux_pde_const_D()`
+- **PDE Solution**: `flux_pde_const_D`
 - **Visualisation**: `plot_time_lag_analysis()`, `plot_flux_over_time()`, `plot_concentration_profile()`
 
 ## Workflow Steps

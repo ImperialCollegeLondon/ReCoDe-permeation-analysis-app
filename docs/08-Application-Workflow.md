@@ -4,7 +4,7 @@ This document explains how the components of the Time Lag Analysis application i
 
 ## Integrated Workflow Overview
 
-The application combines data processing, time lag analysis, PDE solving, and visualisation via the `time_lag_analysis_workflow()` function in `src/time_lag_analysis.py`.
+The application combines data processing, time lag analysis, PDE solving, and visualisation via the `time_lag_analysis_workflow` function in `src/time_lag_analysis.py`.
 
 ## Component Integration Flow
 

@@ -6,7 +6,7 @@ A package for analyzing gas permeation data using time-lag method.
 
 from .time_lag_analysis import time_lag_analysis_workflow
 from .data_processing import load_data, preprocess_data
-from .calculations import time_lag_analysis, flux_pde_const_D
+from .calculations import time_lag_analysis, solve_constant_diffusivity_model
 from .visualisation import (
     plot_time_lag_analysis,
     plot_flux_over_time,
@@ -22,7 +22,7 @@ __all__ = [
     'load_data',
     'preprocess_data',
     'time_lag_analysis',
-    'flux_pde_const_D',
+    'solve_constant_diffusivity_model',
     'plot_time_lag_analysis',
     'plot_flux_over_time',
     'plot_concentration_location_profile',

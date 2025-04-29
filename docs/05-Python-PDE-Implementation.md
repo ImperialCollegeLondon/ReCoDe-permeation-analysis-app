@@ -163,7 +163,7 @@ This section:
 - Converts the numerical results into pandas DataFrames for easier data manipulation and analysis
 - Creates a concentration profile DataFrame with position columns and time as a row index
 - Creates a flux values DataFrame with time and flux columns
-- Calculates the theoretical steady-state flux for reference (D * C_eq / L)
+- Calculates the theoretical steady-state flux for reference `(D * C_eq / L)`
 - Returns the raw concentration profiles, flux values, and formatted DataFrames
 
 ## Mathematical Background

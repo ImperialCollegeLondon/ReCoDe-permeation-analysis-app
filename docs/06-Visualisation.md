@@ -10,7 +10,7 @@ The `visualisation.py` file provides specialised plotting functions to help inte
 
 ### 1. Time Lag Analysis Plot
 
-The `plot_time_lag_analysis` function plots the cumulative flux (y-axis) against time (x-axis) which is used to calculate the time lag $(\theta)$, as previously shown in [`04-TimelagAnalysis-Implementation`](04-TimelagAnalysis-Implementation.md). This plot is importnant for validating the time lag analysis.
+The `plot_time_lag_analysis` function plots the cumulative flux (y-axis) against time (x-axis) which is used to calculate the time lag $(\theta)$, as previously shown in [`04-TimelagAnalysis-Implementation`](04-TimelagAnalysis-Implementation.md). This plot is important for validating the time lag analysis.
 
 The core features are:
 

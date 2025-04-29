@@ -88,8 +88,7 @@ The PDE solving logic is encapsulated inside the `_solve_diffusion_pde` helper f
     - `method='BDF'`: Uses the Backward Differentiation Formula (BDF), which is suitable for solving stiff ODE systems.
     - `t_eval=t_grid`: Specifies time points (`t_grid`) at which the solver should store and return the solution. Without this, the solver might choose its own internal time steps.
     - `args=(diffusion_coeff, dx)`: Passes additional arguments required by the `_diffusion_ode` function beyond the `t` (time) and `y` (concentration). In this case, it passes the `diffusion_coeff` (diffusion coefficient) and `dx` (spatial step size) needed to calculate the concentration derivatives.
-    - `rtol=1e-4` and `atol=1e-6`: Specifies the relative tolerance (`rtol`) and absolute tolerance (`atol`) to control integration accuracy.
-
+    - `rtol=1e-4` and `atol=1e-6`: Specifies the relative tolerance (`rtol`) and absolute tolerance (`atol`) to control integration accuracy. Setting these values too high can lead to inaccurate results, while setting them too low increases computation time.
 
 ### 2. Flux Calculation
 

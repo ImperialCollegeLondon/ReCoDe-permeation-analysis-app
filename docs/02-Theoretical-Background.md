@@ -11,7 +11,7 @@ Gas transport through membranes is a fundamental process in many areas of chemic
 
 A typical gas permeation experiment involves placing a membrane sample between two chambers. One chamber (upstream) is pressurized with the gas of interest, while the other chamber (downstream) is kept at a low pressure, often by using a sweep gas. The amount of gas that permeates through the membrane to the downstream side is then measured over time.
 
-THe key steps of the experiment include:
+The key steps of the experiment include:
 1. A gas is introduced on one side of a membrane at time $t=0$. The downstream pressure is maintained by using a continuously sweeping flow of nitrogen (N$_2$). This ensures the concentration at the downstream face of the membrane remains effectively zero.
 2. The gas flux through the membrane is measured over time on the permeate side.
 3. Initially, there is a transient state as the concentration profile develops in the membrane.

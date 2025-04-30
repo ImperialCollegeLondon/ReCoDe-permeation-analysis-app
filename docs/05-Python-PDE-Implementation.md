@@ -10,7 +10,7 @@ The `solve_constant_diffusivity_model` function is implemented through a series 
 
 1. PDE Solution
 2. Flux Calculation
-5. Post-processing
+3. Post-processing
 
 ### 1. PDE Solution
 

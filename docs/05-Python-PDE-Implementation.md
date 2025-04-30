@@ -9,7 +9,7 @@ This document details the implementation of `solve_constant_diffusivity_model` i
 The `solve_constant_diffusivity_model` function is implemented through a series of helper functions.The implementation is divided into five main sections:
 
 1. PDE Solution
-4. Flux Calculation
+2. Flux Calculation
 5. Post-processing
 
 ### 1. PDE Solution

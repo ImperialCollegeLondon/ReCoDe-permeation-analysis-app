@@ -12,7 +12,7 @@ This document outlines the implementation of the Graphical User Interface (GUI) 
 
 The core design aims for clarity and ease of use, separating user inputs from results visualisation.
 
-1.  **Framework Choice**: [`customtkinter`](https://customtkinter.tomschimansky.com/) is a modern UI-library based on Tkinter. It selected for its modern appearance and theme support, providing a better user experience than standard Tkinter. [`matplotlib`](https://matplotlib.org/) is used for its flexible plotting capabilities, integrated with `customtkinter` via `FigureCanvasTkAgg`.
+1.  **Framework Choice**: [`customtkinter`](https://customtkinter.tomschimansky.com/) is a modern UI-library based on Tkinter. It is selected for its modern appearance and theme support, providing a better user experience than standard Tkinter. [`matplotlib`](https://matplotlib.org/) is used for its flexible plotting capabilities, integrated with `customtkinter` via `FigureCanvasTkAgg`.
 2.  **Layout Strategy**: The main application window (`App` class) utilises a `grid` layout. It's divided into three primary sections:
     *   **Input Panel (Left)**: Contains all user controls (file selection, parameter entries, buttons) and the numerical results text box (`result_text`). This panel occupies less horizontal space.
     *   **Plot Panel (Right)**: Dedicated to displaying the four key analysis plots. This panel is configured to expand significantly more than the input panel when the window is resized horizontally, ensuring ample space for visualisations.

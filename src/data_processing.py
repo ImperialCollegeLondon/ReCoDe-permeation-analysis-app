@@ -176,7 +176,6 @@ def identify_stabilisation_time(
         .rolling(window=window)
         .median()
     )
-    # stabilisation_index = df[((df['pct_change_mean'] <= threshold)) & (df['pct_change_max'] <= threshold)].index[0]
     stabilisation_index = df[(df["pct_change_mean"] <= threshold)].index[0]
     stabilisation_time = df.loc[stabilisation_index, "t / s"]
     return stabilisation_time

@@ -64,10 +64,7 @@ def set_plot_style():
     # Common properties
     plt.rcParams["font.size"] = 10
     plt.rcParams["font.family"] = "sans-serif"
-    # plt.rcParams['mathtext.fontset'] = 'cm'  # Computer Modern font
     plt.rcParams["mathtext.default"] = "regular"  # same as regular text
-    # plt.rcParams['font.serif'] = ['Times']
-    # plt.rcParams['text.usetex'] = True  # Disable LaTeX rendering
     plt.rcParams["axes.titlesize"] = "small"  # relative to font.size
     plt.rcParams["axes.labelsize"] = "small"  # relative to font.size
     plt.rcParams["xtick.labelsize"] = "small"  # relative to font.size
@@ -115,10 +112,6 @@ def update_ticks(ax, x_lo=None, y_lo=None, x_up=None, y_up=None):
     min_y_lim = ax.get_ylim()[0]
 
     # Get the largest and smallest x ticks and y ticks
-    # max_x_tick = max(ax.get_xticks())
-    # min_x_tick = min(ax.get_xticks())
-    # max_y_tick = max(ax.get_yticks())
-    # min_y_tick = min(ax.get_yticks())
     max_x_tick = ax.get_xticks()[-2]  # last tick is not visible
     min_x_tick = ax.get_xticks()[-2]
     max_y_tick = ax.get_yticks()[-2]

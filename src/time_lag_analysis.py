@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from calculations import time_lag_analysis, solve_constant_diffusivity_model

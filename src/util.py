@@ -68,13 +68,13 @@ def update_ticks(ax, x_lo=None, y_lo=None, x_up=None, y_up=None):
             (y_lo, y_up): The final y-axis limits.
     """
     # Adjust lower x and y ticks to start from 0
-    if x_lo != None:
+    if x_lo is not None:
         ax.set_xlim(left=x_lo)
-    if y_lo != None:
+    if y_lo is not None:
         ax.set_ylim(bottom=y_lo)
-    if x_up != None:
+    if x_up is not None:
         ax.set_xlim(right=x_up)
-    if y_up != None:
+    if y_up is not None:
         ax.set_ylim(top=y_up)
     
     # Get axis limits
@@ -98,16 +98,16 @@ def update_ticks(ax, x_lo=None, y_lo=None, x_up=None, y_up=None):
     ax_y_major_tick_length = ax.get_yticks()[1] - ax.get_yticks()[0]
     
     # Adjust upper x and y ticks to cover all data
-    if x_up == None: 
+    if x_up is None: 
         if max_x_lim > max_x_tick:
             ax.set_xlim(right=max_x_tick + 1.*ax_x_major_tick_length)
-    if y_up == None:
+    if y_up is None:
         if max_y_lim > max_y_tick:
             ax.set_ylim(top=max_y_tick + 1.*ax_y_major_tick_length)
-    if x_lo == None:
+    if x_lo is None:
         if min_x_lim < min_x_tick:
             ax.set_xlim(left=min_x_tick - 1.*ax_x_major_tick_length)
-    if y_lo == None:
+    if y_lo is None:
         if min_y_lim < min_y_tick:
             ax.set_ylim(bottom=min_y_tick - 1.*ax_y_major_tick_length)
     

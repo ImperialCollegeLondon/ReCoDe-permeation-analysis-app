@@ -8,14 +8,16 @@ import pandas as pd
 import math
 
 def load_data(file_path: str) -> pd.DataFrame:
-    """
-    Load data from a CSV file (.csv) or Excel file (.xlsx, .xls).
+    """Load data from a CSV file (.csv) or Excel file (.xlsx, .xls).
 
-    Parameters:
-    file_path (str): Path to the file.
+    Args:
+        file_path: Path to the file.
 
     Returns:
-    pd.DataFrame: Loaded data as a DataFrame.
+        Loaded data as a DataFrame.
+
+    Raises:
+        ValueError: If the file format is unsupported.
     """
     if file_path.endswith('.csv'):
         return pd.read_csv(file_path)
@@ -25,47 +27,48 @@ def load_data(file_path: str) -> pd.DataFrame:
         raise ValueError("Unsupported file format. Please provide a .csv, .xlxs or .xls file.")
 
 def correct_baseline(df: pd.DataFrame, baseline: float = 0) -> pd.DataFrame:
-    """
-    Correct the baseline of the raw data.
+    """Correct the baseline of the raw data.
 
-    Parameters:
-    df (pd.DataFrame): Raw data.
-    baseline (float): Baseline value to subtract from the column.
+    Args:
+        df: Raw data DataFrame containing 'y_CO2 / ppm'.
+        baseline: Baseline value to subtract from the 'y_CO2 / ppm' column.
 
     Returns:
-    pd.DataFrame: Baseline-corrected data.
+        Baseline-corrected 'y_CO2_bl / ppm' data as a pandas Series.
     """
     df = df.copy()
     df['y_CO2_bl / ppm'] = df['y_CO2 / ppm'] - baseline
     return df['y_CO2_bl / ppm']
 
 def calculate_pressure(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Calculate the pressure in the desired units.
+    """Calculate the absolute pressure in bar from gauge pressure.
 
-    Parameters:
-    df (pd.DataFrame): Data with 'P_cell / barg'.
-    conversion_factor (float): Conversion factor from barg to desired pressure units.
+    Args:
+        df: DataFrame containing 'P_cell / barg'.
 
     Returns:
-    pd.DataFrame: Data with converted pressure units.
+        Absolute pressure in bar as a pandas Series.
     """
     df = df.copy()
     df['P_cell / bar'] = df['P_cell / barg'] + 1.01325  # Convert barg to bar
     return df['P_cell / bar']
 
 def calculate_flux(df: pd.DataFrame, d_cm: float, qN2_mlmin: float = None, unit: str='cm^3 cm^-2 s^-1') -> pd.DataFrame:
-    """
-    Convert 'y_CO2 / ppm' to 'flux / cm^3(STP) cm^-2 s^-1'.
+    """Convert 'y_CO2 / ppm' to 'flux / cm^3(STP) cm^-2 s^-1'.
 
-    Parameters:
-    df (pd.DataFrame): Data with 'y_CO2 / ppm'.
-    d_cm (float): Thickness of the polymer in cm.
-    qN2_mlmin (float): Flow rate of N2 in ml/min. If None, use the column 'qN2 / ml min^-1' from the DataFrame.
-    unit (str): Unit of the flux.
+    Args:
+        df: DataFrame containing 'y_CO2_bl / ppm' and optionally 'qN2 / ml min^-1'.
+        d_cm: Diameter of the polymer disc in cm.
+        qN2_mlmin: Flow rate of N2 in ml/min. If None, uses the column
+                  'qN2 / ml min^-1' from the DataFrame.
+        unit: Unit of the flux (currently only supports 'cm^3 cm^-2 s^-1').
 
     Returns:
-    pd.DataFrame: Data with converted flux units.
+        Calculated flux in the specified units as a pandas Series.
+
+    Raises:
+        ValueError: If required columns ('y_CO2_bl / ppm' or 'qN2 / ml min^-1'
+                   if qN2_mlmin is None) are missing.
     """
     df = df.copy()
     
@@ -89,30 +92,34 @@ def calculate_flux(df: pd.DataFrame, d_cm: float, qN2_mlmin: float = None, unit:
     return df['flux / cm^3(STP) cm^-2 s^-1']
 
 def calculate_cumulative_flux(df: pd.DataFrame) -> pd.DataFrame:
-    """
-    Calculate the cumulative flux based on 't / s' and 'y_CO2 / ppm'.
+    """Calculate the cumulative flux based on 't / s' and flux.
 
-    Parameters:
-    df (pd.DataFrame): Preprocessed data.
+    Args:
+        df: Preprocessed DataFrame containing 't / s' and 'flux / cm^3(STP) cm^-2 s^-1'.
 
     Returns:
-    pd.DataFrame: Data with cumulative flux.
+        Cumulative flux as a pandas Series.
     """
     df['cumulative flux / cm^3(STP) cm^-2'] = (df['flux / cm^3(STP) cm^-2 s^-1'] * df['t / s'].diff().fillna(0)).cumsum()
     return df['cumulative flux / cm^3(STP) cm^-2']
 
 def identify_stabilisation_time(df: pd.DataFrame, column: str, window: int = 5, threshold: float = 0.001) -> float:
-    """
-    Identify where flux has stabilised by comparing the rolling fractional changes of gradient of a specified column with respect to 't / s'.
+    """Identify where flux has stabilised using rolling fractional changes.
 
-    Parameters:
-    df (pd.DataFrame): Preprocessed data.
-    column (str): Column name to check for stabilisation.
-    window (int): Window size for rolling calculation.
-    threshold (float): Fractional threshold for determining stabilisation.
+    Compares the rolling fractional changes of the gradient of a specified
+    column with respect to 't / s'.
+
+    Args:
+        df: Preprocessed DataFrame containing 't / s' and the specified column.
+        column: Column name to check for stabilisation (e.g., 'cumulative flux / cm^3(STP) cm^-2').
+        window: Window size for rolling calculation.
+        threshold: Fractional threshold for determining stabilisation.
 
     Returns:
-    stabilisation_time: Time corresponding to where the specified column has stabilised.
+        Time corresponding to where the specified column has stabilised.
+
+    Raises:
+        ValueError: If required columns ('t / s' or the specified column) are missing.
     """
     df = df.copy()
     
@@ -132,16 +139,22 @@ def identify_stabilisation_time(df: pd.DataFrame, column: str, window: int = 5, 
     return stabilisation_time
 
 def preprocess_data(df: pd.DataFrame, d_cm: float, qN2_mlmin: float = None) -> pd.DataFrame:
-    """
-    Preprocess the loaded data.
+    """Preprocess the loaded raw permeation data.
 
-    Parameters:
-    df (pd.DataFrame): Raw data.
-    d_cm (float): Thickness of the polymer in cm.
-    qN2_mlmin (float): Flow rate of N2 in ml/min. If None, use the column 'qN2 / ml min^-1' from the DataFrame.
+    Performs baseline correction, pressure calculation, flux calculation,
+    and cumulative flux calculation.
+
+    Args:
+        df: Raw data DataFrame.
+        d_cm: Diameter of the polymer disc in cm.
+        qN2_mlmin: Flow rate of N2 in ml/min. If None, uses the column
+                  'qN2 / ml min^-1' from the DataFrame.
 
     Returns:
-    pd.DataFrame: Preprocessed data.
+        Preprocessed data DataFrame with relevant columns.
+
+    Raises:
+        ValueError: If required columns are missing for calculations.
     """
     df = df.copy()
     

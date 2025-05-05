@@ -26,8 +26,10 @@ qN2_dict = {
 }  # [ml min^-1]
 
 def set_plot_style():
-    """
-    Set the style for plots.
+    """Set the style for plots.
+    
+    Configures matplotlib parameters for consistent plot styling throughout
+    the application.
     """
     # Common properties
     plt.rcParams['font.size'] = 10
@@ -51,10 +53,19 @@ def set_plot_style():
     plt.rcParams['ytick.major.pad'] = 5
     
 def update_ticks(ax, x_lo=None, y_lo=None, x_up=None, y_up=None):
-    """Update x and y ticks of subplot ax to cover all data. Put ticks to inside.
-
+    """Update x and y ticks of subplot ax to cover all data.
+    
     Args:
-        ax: plot object.
+        ax: Plot axes object.
+        x_lo: Lower limit for x-axis. If None, determined automatically.
+        y_lo: Lower limit for y-axis. If None, determined automatically.
+        x_up: Upper limit for x-axis. If None, determined automatically.
+        y_up: Upper limit for y-axis. If None, determined automatically.
+        
+    Returns:
+        tuple: A tuple containing:
+            (x_lo, x_up): The final x-axis limits.
+            (y_lo, y_up): The final y-axis limits.
     """
     # Adjust lower x and y ticks to start from 0
     if x_lo != None:
@@ -109,10 +120,9 @@ def update_ticks(ax, x_lo=None, y_lo=None, x_up=None, y_up=None):
     return ax.get_xlim(), ax.get_ylim()
 
 def get_time_id():
-    """
-    Generate a unique time-based identifier.
+    """Generate a unique time-based identifier.
     
     Returns:
-        str: A string representing the current date and time in the format YYYYMMDD_HHMMSS.
+        A string representing the current date and time in the format YYMMDD-HHMMSS.
     """
     return datetime.now().strftime('%y%m%d-%H%M%S')

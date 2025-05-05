@@ -11,20 +11,20 @@ def time_lag_analysis(df: pd.DataFrame, stabilisation_time_s: float, thickness: 
     """Perform time-lag analysis on the permeation data.
     
     Args:
-        df: Preprocessed data containing time and flux measurements.
-        stabilisation_time_s: Time after which the flux has stabilized (seconds).
-        thickness: Thickness of the polymer membrane (cm).
+        df (pd.DataFrame): Preprocessed data containing time and flux measurements.
+        stabilisation_time_s (float): Time after which the flux has stabilized (seconds).
+        thickness (float): Thickness of the polymer membrane (cm).
         
     Returns:
         tuple: A tuple containing:
-            time_lag: Calculated time lag (seconds).
-            diffusion_coefficient: Diffusion coefficient (cm²/s).
-            permeability: Permeability coefficient (cm³(STP) cm⁻² s⁻¹ bar⁻¹).
-            solubility_coefficient: Solubility coefficient (cm³(STP) cm⁻³ bar⁻¹).
-            pressure: Average pressure used in the measurement (bar).
-            solubility: Direct solubility measurement (cm³(STP) cm⁻³).
-            slope: Slope of the steady-state region (cm³(STP) cm⁻² s⁻¹).
-            intercept: y-intercept of the steady-state fit (cm³(STP) cm⁻²).
+            time_lag (float): Calculated time lag (seconds).
+            diffusion_coefficient (float): Diffusion coefficient (cm²/s).
+            permeability (float): Permeability coefficient (cm³(STP) cm⁻¹ s⁻¹ bar⁻¹).
+            solubility_coefficient (float): Solubility coefficient (cm³(STP) cm⁻³ bar⁻¹).
+            pressure (float): Average pressure used in the measurement (bar).
+            solubility (float): Direct solubility measurement (cm³(STP) cm⁻³).
+            slope (float): Slope of the steady-state region (cm³(STP) cm⁻² s⁻¹).
+            intercept (float): y-intercept of the steady-state fit (cm³(STP) cm⁻²).
             
     Raises:
         ValueError: If the data hasn't been preprocessed correctly.
@@ -73,20 +73,20 @@ def solve_constant_diffusivity_model(diffusion_coeff: float, C_eq: float, L: flo
     ∂C/∂t = D·∂²C/∂x² 
     
     Args:
-        diffusion_coeff: Diffusion coefficient (length²/time).
-        C_eq: Equilibrium concentration at upstream boundary (amount/volume).
-        L: Thickness of the membrane (length).
-        T: Total simulation time (time).
-        dt: Time step for output points (time).
-        dx: Spatial discretization step (length).
-        debug: Whether to print additional debugging information. Defaults to False.
+        diffusion_coeff (float): Diffusion coefficient (length²/time).
+        C_eq (float): Equilibrium concentration at upstream boundary (amount/volume).
+        L (float): Thickness of the membrane (length).
+        T (float): Total simulation time (time).
+        dt (float): Time step for output points (time).
+        dx (float): Spatial discretization step (length).
+        debug (bool): Whether to print additional debugging information.
 
     Returns:
         tuple: A tuple containing:
-            C_surface: Concentration profile as function of position and time.
-            flux_values: Flux values at the downstream boundary over time.
-            df_C_surface: Concentration profile data organized in a DataFrame.
-            df_flux_values: Flux profile data organized in a DataFrame.
+            C_surface (np.ndarray): Concentration profile as function of position and time.
+            flux_values (np.ndarray): Flux values at the downstream boundary over time.
+            df_C_surface (pd.DataFrame): Concentration profile data organized in a DataFrame.
+            df_flux_values (pd.DataFrame): Flux profile data organized in a DataFrame.
             
     Note:
         Boundary conditions:
@@ -124,18 +124,18 @@ def _solve_diffusion_pde(diffusion_coeff: float, C_eq: float, L: float, T: float
     """Solve the diffusion PDE using the method of lines.
     
     Args:
-        diffusion_coeff: Diffusion coefficient.
-        C_eq: Equilibrium concentration.
-        L: Thickness of the polymer.
-        T: Total time.
-        dx: Spatial step size.
-        dt: Time step size.
+        diffusion_coeff (float): Diffusion coefficient.
+        C_eq (float): Equilibrium concentration.
+        L (float): Thickness of the polymer.
+        T (float): Total time.
+        dx (float): Spatial step size.
+        dt (float): Time step size.
         
     Returns:
         tuple: A tuple containing:
-            sol: Solution object from solve_ivp.
-            x_grid: Spatial grid points.
-            Nx: Number of spatial points.
+            sol (solve_ivp): Solution object from solve_ivp.
+            x_grid (np.ndarray): Spatial grid points.
+            Nx (int): Number of spatial points.
     """
     x_grid, t_grid, Nx, Nt = _setup_grid(L, T, dx, dt)
     
@@ -167,17 +167,17 @@ def _setup_grid(L: float, T: float, dx: float, dt: float) -> tuple:
     """Set up spatial and time grids for PDE solution.
     
     Args:
-        L: Thickness of the polymer.
-        T: Total time.
-        dx: Spatial step size.
-        dt: Time step size.
+        L (float): Thickness of the polymer.
+        T (float): Total time.
+        dx (float): Spatial step size.
+        dt (float): Time step size.
         
     Returns:
         tuple: A tuple containing:
-            x_grid: Spatial grid points.
-            t_grid: Time grid points.
-            Nx: Number of spatial points.
-            Nt: Number of time points.
+            x_grid (np.ndarray): Spatial grid points.
+            t_grid (np.ndarray): Time grid points.
+            Nx (int): Number of spatial points.
+            Nt (int): Number of time points.
     """
     # Calculate number of points
     Nx = round(L / dx) + 1
@@ -193,11 +193,11 @@ def _create_initial_condition(Nx: int, C_eq: float) -> np.ndarray:
     """Create the initial concentration profile.
     
     Args:
-        Nx: Number of spatial points.
-        C_eq: Equilibrium concentration.
+        Nx (int): Number of spatial points.
+        C_eq (float): Equilibrium concentration.
         
     Returns:
-        ndarray: Initial concentration values at each spatial point.
+        np.ndarray: Initial concentration values at each spatial point.
     """
     C_init = np.zeros(Nx)
     C_init[0] = C_eq  # Apply boundary condition at x=0 (feed side)
@@ -210,13 +210,13 @@ def _diffusion_ode(t: float, C: np.ndarray, diffusion_coeff: float, dx: float) -
     discretizing the diffusion PDE using the method of lines.
     
     Args:
-        t: Current time point (not used, but required by solve_ivp).
-        C: Current concentration values at each spatial point.
-        diffusion_coeff: Diffusion coefficient.
-        dx: Spatial step size.
+        t (float): Current time point (not used, but required by solve_ivp).
+        C (np.ndarray): Current concentration values at each spatial point.
+        diffusion_coeff (float): Diffusion coefficient.
+        dx (float): Spatial step size.
         
     Returns:
-        ndarray: Rate of change of concentration at each spatial point.
+        np.ndarray: Rate of change of concentration at each spatial point.
     """
     dCdt = np.zeros_like(C)
     
@@ -230,10 +230,10 @@ def _prepare_concentration_profile(sol: Any) -> np.ndarray:
     """Process the solution into a concentration profile.
     
     Args:
-        sol: Solution from solve_ivp.
+        sol (solve_ivp): Solution from solve_ivp.
         
     Returns:
-        ndarray: Concentration profile as a function of position x and time t.
+        np.ndarray: Concentration profile as a function of position x and time t.
     """
     # Extract solution and transpose to get more intuitive (time, position) shape for plotting and exporting
     C_surface = sol.y.T
@@ -244,12 +244,12 @@ def _calculate_flux(diffusion_coeff: float, C_surface: np.ndarray, dx: float) ->
     """Calculate flux using Fick's first law.
     
     Args:
-        diffusion_coeff: Diffusion coefficient.
-        C_surface: Concentration profile.
-        dx: Spatial step size.
+        diffusion_coeff (float): Diffusion coefficient.
+        C_surface (np.ndarray): Concentration profile.
+        dx (float): Spatial step size.
         
     Returns:
-        ndarray: Flux values at each time point.
+        np.ndarray: Flux values at each time point.
     """
     # Calculate flux at x=L using Fick's first law: J = -D·(∂C/∂x)
     flux_values = -diffusion_coeff * (C_surface[:, -1] - C_surface[:, -2]) / dx
@@ -260,15 +260,15 @@ def _create_dataframes(C_surface: np.ndarray, flux_values: np.ndarray, sol: Any,
     """Create DataFrames for the concentration profile and flux values.
     
     Args:
-        C_surface: Concentration profile.
-        flux_values: Flux values.
-        sol: Solution from solve_ivp.
-        x_grid: Spatial grid.
+        C_surface (np.ndarray): Concentration profile.
+        flux_values (np.ndarray): Flux values.
+        sol (solve_ivp): Solution from solve_ivp.
+        x_grid (np.ndarray): Spatial grid.
         
     Returns:
         tuple: A tuple containing:
-            df_C_surface: Concentration profile data organized by position and time.
-            df_flux_values: Flux profile data organized by time.
+            df_C_surface (pd.DataFrame): Concentration profile data organized by position and time.
+            df_flux_values (pd.DataFrame): Flux profile data organized by time.
     """
     # Concentration profile DataFrame
     df_C_surface = pd.DataFrame(C_surface, columns=[f"x = {x:.3g}" for x in x_grid])

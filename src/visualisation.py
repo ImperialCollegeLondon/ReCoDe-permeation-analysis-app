@@ -9,16 +9,15 @@ import matplotlib.pyplot as plt
 from util import figsize_dict, set_plot_style, update_ticks
 
 def plot_time_lag_analysis(df: pd.DataFrame, stabilisation_time_s: float, slope: float, intercept: float, fig=None, ax=None):
-    """
-    Plot the results of the time-lag analysis.
+    """Plot the results of the time-lag analysis.
 
-    Parameters:
-    df (pd.DataFrame): Preprocessed data.
-    stabilisation_time (float): Time after which the flux has stabilised.
-    slope (float): Slope of the fitted line.
-    intercept (float): Intercept of the fitted line.
-    fig (matplotlib.figure.Figure, optional): Figure object to draw the plot onto, otherwise creates a new figure.
-    ax (matplotlib.axes.Axes, optional): Axes object to draw the plot onto, otherwise uses current Axes.
+    Args:
+        df: Preprocessed data.
+        stabilisation_time_s: Time after which the flux has stabilised.
+        slope: Slope of the fitted line.
+        intercept: Intercept of the fitted line.
+        fig: Figure object to draw the plot onto. If None, creates a new figure.
+        ax: Axes object to draw the plot onto. If None, uses current Axes.
     """
     set_plot_style()
     df_ss = df[df['t / s'] > stabilisation_time_s]
@@ -36,15 +35,14 @@ def plot_time_lag_analysis(df: pd.DataFrame, stabilisation_time_s: float, slope:
     plt.tight_layout()
 
 def plot_concentration_location_profile(C_profile, L, T, fig=None, ax=None):
-    """
-    Plot the concentration-location profile at different times.
+    """Plot the concentration-location profile at different times.
 
-    Parameters:
-    C_profile (ndarray): Concentration profile as a function of position x and time t.
-    L (float): Thickness of the polymer.
-    T (float): Total time.
-    fig (matplotlib.figure.Figure, optional): Figure object to draw the plot onto, otherwise creates a new figure.
-    ax (matplotlib.axes.Axes, optional): Axes object to draw the plot onto, otherwise uses current Axes.
+    Args:
+        C_profile: Concentration profile as a function of position x and time t.
+        L: Thickness of the polymer.
+        T: Total time.
+        fig: Figure object to draw the plot onto. If None, creates a new figure.
+        ax: Axes object to draw the plot onto. If None, uses current Axes.
     """
     set_plot_style()
     if fig is None or ax is None:
@@ -61,15 +59,14 @@ def plot_concentration_location_profile(C_profile, L, T, fig=None, ax=None):
     plt.tight_layout()
 
 def plot_flux_over_time(flux, preprocessed_df, T_final, fig=None, ax=None):
-    """
-    Plot the flux over time from the model and the preprocessed data.
+    """Plot the flux over time from the model and the preprocessed data.
 
-    Parameters:
-    flux (ndarray): Flux values from the model.
-    preprocessed_df (pd.DataFrame): Preprocessed data.
-    T_final (float): Total time.
-    fig (matplotlib.figure.Figure, optional): Figure object to draw the plot onto, otherwise creates a new figure.
-    ax (matplotlib.axes.Axes, optional): Axes object to draw the plot onto, otherwise uses current Axes.
+    Args:
+        flux: Flux values from the model.
+        preprocessed_df: Preprocessed data.
+        T_final: Total time.
+        fig: Figure object to draw the plot onto. If None, creates a new figure.
+        ax: Axes object to draw the plot onto. If None, uses current Axes.
     """
     set_plot_style()
     if fig is None or ax is None:
@@ -85,15 +82,14 @@ def plot_flux_over_time(flux, preprocessed_df, T_final, fig=None, ax=None):
     plt.tight_layout()
 
 def plot_concentration_profile(C_profile, L, T, fig=None, ax=None):
-    """
-    Plot the concentration profile as a function of position x and time t.
+    """Plot the concentration profile as a function of position x and time t.
 
-    Parameters:
-    C_profile (ndarray): Concentration profile as a function of position x and time t.
-    L (float): Thickness of the polymer.
-    T (float): Total time.
-    fig (matplotlib.figure.Figure, optional): Figure object to draw the plot onto, otherwise creates a new figure.
-    ax (matplotlib.axes.Axes, optional): Axes object to draw the plot onto, otherwise uses current Axes.
+    Args:
+        C_profile: Concentration profile as a function of position x and time t.
+        L: Thickness of the polymer.
+        T: Total time.
+        fig: Figure object to draw the plot onto. If None, creates a new figure.
+        ax: Axes object to draw the plot onto. If None, uses current Axes.
     """
     set_plot_style()
     if fig is None or ax is None:

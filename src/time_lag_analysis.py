@@ -8,22 +8,40 @@ from util import thickness_dict, qN2_dict, get_time_id
 import os
 
 def time_lag_analysis_workflow(datapath: str, L_cm: float, d_cm: float, qN2_mlmin: float = None, stablisation_time_range: tuple = (None, None), display_plot: bool = False, save_plot: bool = False, save_data: bool = False, output_dir: str = '.'):
-    """
-    Perform the entire time-lag analysis workflow.
+    """Perform the entire time-lag analysis workflow.
 
-    Parameters:
-    datapath (pd.DataFrame): Path of raw data.
-    L_cm (float): Thickness of the polymer in cm.
-    d_cm (float): Diameter of the polymer in cm.
-    qN2_mlmin (float): Flow rate of N2 in ml/min. If None, use the column 'qN2 / ml min^-1' from the DataFrame.
-    stablisation_time_range (tuple): Tuple containing the start and end times for the stabilisation period.
-    display_plot (bool): Whether to display the plots.
-    save_plot (bool): Whether to save the plots.
-    save_data (bool): Whether to save the results data.
-    output_dir (str): Directory to save the plots and data.
+    Args:
+        datapath: Path of the raw data file (.xlsx or .csv).
+        L_cm: Thickness of the polymer membrane in cm.
+        d_cm: Diameter of the polymer disc in cm.
+        qN2_mlmin: Flow rate of N2 in ml/min. If None, uses the column
+                   'qN2 / ml min^-1' from the DataFrame.
+        stablisation_time_range: Tuple containing the start and end times (s)
+                                for the stabilisation period. If (None, None),
+                                stabilisation time is auto-detected.
+        display_plot: Whether to display the plots.
+        save_plot: Whether to save the plots to the output directory.
+        save_data: Whether to save the results data (preprocessed, analysis,
+                  profiles) to the output directory.
+        output_dir: Directory to save the plots and data.
 
     Returns:
-    dict: Results of the time-lag analysis including time lag, diffusion coefficient, permeability, solubility coefficient, slope, and intercept.
+        A tuple containing:
+            dict: Results of the time-lag analysis including time lag,
+                 diffusion coefficient, permeability, solubility coefficient,
+                 slope, intercept, and other parameters.
+            pd.DataFrame: The preprocessed data.
+            np.ndarray: The calculated concentration profile C(x, t).
+            np.ndarray: The calculated flux profile J(t).
+            pd.DataFrame: The concentration profile data.
+            pd.DataFrame: The flux profile data.
+
+    Raises:
+        ValueError: If the start time in stablisation_time_range is greater
+                   than or equal to the end time.
+        FileNotFoundError: If the datapath does not exist.
+        Exception: Propagates exceptions from underlying functions (e.g.,
+                  data loading, processing, calculations).
     """
     # Create directory if not exist
     if save_data or save_plot:

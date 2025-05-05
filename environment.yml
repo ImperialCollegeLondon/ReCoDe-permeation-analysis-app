@@ -13,3 +13,4 @@ dependencies:
   - openpyxl
   - conda-forge::darkdetect
   - bioconda::customtkinter
+  - ruff

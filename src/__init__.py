@@ -11,23 +11,23 @@ from .visualisation import (
     plot_time_lag_analysis,
     plot_flux_over_time,
     plot_concentration_location_profile,
-    plot_concentration_profile
+    plot_concentration_profile,
 )
 from .util import set_plot_style, update_ticks, get_time_id
 
-__version__ = '1.0.0'
+__version__ = "1.0.0"
 
 __all__ = [
-    'time_lag_analysis_workflow',
-    'load_data',
-    'preprocess_data',
-    'time_lag_analysis',
-    'solve_constant_diffusivity_model',
-    'plot_time_lag_analysis',
-    'plot_flux_over_time',
-    'plot_concentration_location_profile',
-    'plot_concentration_profile',
-    'set_plot_style',
-    'update_ticks',
-    'get_time_id',
+    "time_lag_analysis_workflow",
+    "load_data",
+    "preprocess_data",
+    "time_lag_analysis",
+    "solve_constant_diffusivity_model",
+    "plot_time_lag_analysis",
+    "plot_flux_over_time",
+    "plot_concentration_location_profile",
+    "plot_concentration_profile",
+    "set_plot_style",
+    "update_ticks",
+    "get_time_id",
 ]

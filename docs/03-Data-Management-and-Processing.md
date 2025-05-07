@@ -34,14 +34,17 @@ Raw experimental data is loaded from Excel files using the `load_data` function.
 ### 2. Data Preprocessing
 
 The `preprocess_data` function performs several preprocessing steps:
+
 1. **Baseline correction**: Remove background signals from gas concentration measurements.
 ```python
 df['y_CO2_bl / ppm'] = df['y_CO2 / ppm'] - baseline
 ```
+
 2. **Pressure conversion**: Convert pressure readings to standard units (bar).
 ```python
 df['P_cell / bar'] = df['P_cell / barg'] + 1.01325
 ```
+
 3. **Flux calculation**: Calculate gas flux through the membrane from provided polymer disc thickness (`d_cm`) and N₂ sweeping gas flowrate (`qN2_mlmin`).
 ```python
 # Calculate Area of disc
@@ -57,6 +60,7 @@ elif 'qN2 / ml min^-1' not in df.columns:
 if unit == 'cm^3 cm^-2 s^-1' or unit == 'None':
     df['flux / cm^3(STP) cm^-2 s^-1'] = (df['qN2 / ml min^-1'] / 60) * (df['y_CO2_bl / ppm'] * 1e-6) / A_cm2
 ```
+
 4. **Cumulative flux calculation**: Integrate experimental flux over time to obtain cumulative flux.
 ```python
 df['cumulative flux / cm^3(STP) cm^-2'] = (df['flux / cm^3(STP) cm^-2 s^-1'] * df['t / s'].diff().fillna(0)).cumsum()
@@ -64,11 +68,15 @@ df['cumulative flux / cm^3(STP) cm^-2'] = (df['flux / cm^3(STP) cm^-2 s^-1'] * d
 
 ### 3. Stabilization Time Detection
 
-An important aspect of time-lag analysis is determining when steady-state diffusion has been reached. This is performed in `identify_stabilisation_time` function. The following steps are performed:
+An important aspect of time-lag analysis is determining when steady-state diffusion has been reached. This is performed in `identify_stabilisation_time` function.
+
+The following steps are performed:
+
 1. Calculates the gradient of the specified data column.
 ```python
 df['gradient'] = (df[column].diff() / df['t / s'].diff())
 ```
+
 2. Examines changes in this gradient over a rolling window.
 ```python
 df['pct_change_mean'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).mean()
@@ -76,6 +84,7 @@ df['pct_change_min'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs
 df['pct_change_max'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).max()
 df['pct_change_median'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).median()
 ```
+
 3. Identifies when changes fall below a specified threshold.
 ```python
 stabilisation_index = df[((df['pct_change_mean'] <= threshold))].index[0]

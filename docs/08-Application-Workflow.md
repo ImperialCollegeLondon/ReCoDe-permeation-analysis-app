@@ -54,12 +54,15 @@ The main stages in `time_lag_analysis_workflow` consist of the following functio
 The components within the `time_lag_analysis_workflow` exchange data as follows:
 
 1. **Data Processing → Time Lag Analysis**
+
    - Processed experimental data with flux values, stabilisation time, and normalised measurements.
 
 2. **Time Lag Analysis → PDE Solution**
+
    - Calculated diffusion coefficient, equilibrium concentration, and membrane thickness.
 
 3. **All Modules → Visualisation**
+
    - Experimental data, transport parameters, and theoretical profiles.
 
 ## Workflow Benefits

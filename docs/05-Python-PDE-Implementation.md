@@ -6,7 +6,9 @@ This document details the implementation of `solve_constant_diffusivity_model` i
 
 ## Implementation Structure
 
-The `solve_constant_diffusivity_model` function is implemented through a series of helper functions.The implementation is divided into five main sections:
+The `solve_constant_diffusivity_model` function is implemented through a series of helper functions.
+
+The implementation is divided into five main sections:
 
 1. PDE Solution
 2. Flux Calculation
@@ -63,6 +65,7 @@ The PDE solving logic is encapsulated inside the `_solve_diffusion_pde` helper f
 3. **PDE Solution**
     
     The Method of Lines is a technique for solving PDEs by:
+
     1. Discretising the spatial derivatives to convert the PDE into a system of ODEs.
     2. Solving the resulting ODE system using standard ODE solvers.
     
@@ -82,6 +85,7 @@ The PDE solving logic is encapsulated inside the `_solve_diffusion_pde` helper f
     ```
 
     The arguments passed to `solve_ivp` are:
+    
     - `_diffusion_ode`: Corresponds to the `_diffusion_ode` function that defines the system of Ordinary Differential Equations (ODEs) for `solve_ivp` by calculating the concentration's rate of change (dC/dt) at each spatial point based on the Method of Lines (using discretised PDE). The rate change provided by `_diffusion_ode` is used to step forward in time and determine the concentration profile.
     - `(0, T)`: Specifies the time interval over which the ODE system should be solved (starts at time t=0 and ends at time t=T).
     - `initial_condition`: Corresponds to the previously calculated variable that represents the state of the system (i.e., concentration at each spatial grid point) at the beginning of the time interval (t=0).
@@ -93,7 +97,6 @@ The PDE solving logic is encapsulated inside the `_solve_diffusion_pde` helper f
 ### 2. Flux Calculation
 
 The gas flux at the downstream face (x=L) using Fick's First Law is calculated using `_calculate_flux` helper function.
-
 
 ```python
 # Calculate flux values
@@ -127,6 +130,7 @@ After the PDE solution is obtained amd the flux profile is calculated, the follo
 ## Benefits of This Approach
 
 Using `solve_ivp` offers the many benefits, including:
+
 1. **Accuracy**: Uses advanced ODE solvers with adaptive time stepping.
 2. **Stability**: BDF method is well-suited for stiff diffusion problems.
 3. **Efficiency**: Method of Lines is computationally efficient for 1D problems.

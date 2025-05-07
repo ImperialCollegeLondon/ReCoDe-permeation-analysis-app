@@ -70,7 +70,6 @@ The following practices offer guidance for adapting this code for your research 
 
 We appreciate you taking the time to work through this exemplar. This was made possible by the relentless support of the ReCoDe team at Imperial. It was a rewarding project to create, and we hope you found the experience equally enjoyable and valuable.
 
-
 Code on and never stop learning!
 
 Best regards,

@@ -31,7 +31,9 @@ The time lag method enables a single value of diffusion coefficient to be calcul
 The time-lag method was first developed and applied to gas diffusion studies in the early 20th century by Daynes [1] and further developed by Barrer [2].
 
 These works established the theoretical foundation that remains the basis for contemporary membrane permeation analysis.
+
 The time-lag method is a technique used to determine two key transport parameters simultaneously:
+
 - Diffusion coefficient $(D)$
 - Solubility coefficient $(S)$
 
@@ -87,16 +89,18 @@ Observing the figures provides insights into the diffusion process governed by F
 * Fixed ends (boundary conditions):
    * Figure 2: The bright red color along the left edge ($x=0$) shows the constant high gas concentration $(C_{eq})$ maintained on the upstream side. The dark blue color along the right edge ($x=L$) shows the near-zero concentration maintained on the downstream side.
    * Figure 3: Every concentration line starts at the high value $C_{eq}$ on the left ($x=0$) and drops to zero on the right ($x=L$). This confirms the fixed concentrations at the membrane boundaries throughout the experiment.
+
 * Empty start  (initial condition):
    * Figure 2: The bottom edge of the heatmap (representing $t=0$) is blue across the membrane width (for $x>0$), indicating that initially, there was no gas dissolved in the membrane.
    * Figure 3: The "t=0" line is flat at zero concentration (except for the upstream boundary at $x=0$), showing the initial empty state of the membrane.
+
 * Gas spreading over time (transient diffusion):
    * Figure 2: As you move upwards (increasing time), the color gradient (from red to blue) moves across the membrane from left to right. This indicates the gas gradually diffusing through the material.
    * Figure 3: The lines for early times (such as t=75s and t=126s) are steeply curved, especially near the left side ($x=0$). This shows that the concentration is changing rapidly as the gas first enters and spreads.
+
 * Reaching a balance (steady state):
    * Figure 2: At later times (towards the top of the heatmap), the color pattern stops changing significantly with time. The gradient becomes stable.
    * Figure 3: The concentration lines become less curved over time. The line for t=7530s is almost perfectly straight. A straight line profile indicates that the rate of gas entering and leaving any section of the membrane has become constant – this is the steady state.
-
 
 ### The Time Lag Derivation
 
@@ -138,6 +142,7 @@ In this application, we use the following units:
 - Amount of substance: standard cubic centimeters at "Standard Temperature and Pressure" [cm³(STP)]. This unit, representing the volume a quantity of gas would occupy at STP (0°C, 1 atm), functions as a measure of amount (like moles). Although an older convention, it remains prevalent in membrane science and engineering, and is therefore used throughout this exemplar.
 
 The key parameters have these units:
+
 - Time lag $(\theta)$: [s]
 - Diffusion coefficient $(D)$: [cm²/s]
 - Permeability $(P)$: [cm³(STP)·cm/(cm²·s·bar)]
@@ -147,6 +152,7 @@ The key parameters have these units:
 ## Significance and Applications
 
 The time lag method provides:
+
 - A straightforward way to determine both diffusion and solubility coefficients
 - Insights into the transport mechanisms through polymers and other materials
 - Data essential for designing gas separation membranes, food packaging, and barrier materials
@@ -158,9 +164,7 @@ In this application, we implement the time lag method for analysing experimental
 While the time lag method is a powerful technique, it has several important limitations that should be considered:
 
 1. Constant diffusion coefficient assumption: The classical time lag method assumes that the diffusion coefficient is concentration-independent. For materials with strong gas-polymer interactions, this assumption may not hold, leading to inaccurate results.
-
 2. Steady-state requirement: Accurate time lag determination requires reaching true steady-state conditions. Premature termination of experiments can lead to incorrect extrapolation and inaccurate diffusion coefficients.
-
 3. Downstream boundary condition: The method requires maintaining near-zero concentration at the downstream membrane face. Insufficient sweep gas flow or downstream accumulation can violate this condition, compromising time lag accuracy.
 
 These limitations highlight the importance of careful experimental design and thoughtful interpretation of results when using the time lag method for membrane characterisation.

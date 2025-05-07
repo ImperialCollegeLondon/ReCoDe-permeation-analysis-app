@@ -29,11 +29,11 @@ The application implements a data processing pipeline in `data_processing.py` co
 
 ### 1. Loading Data
 
-Raw experimental data is loaded from Excel files using the [`load_data`](../src/data_processing.py#L10) function.
+Raw experimental data is loaded from Excel files using the `load_data` function.
 
 ### 2. Data Preprocessing
 
-The [`preprocess_data`](../src/data_processing.py#134) function performs several preprocessing steps:
+The `preprocess_data` function performs several preprocessing steps:
 1. **Baseline correction**: Remove background signals from gas concentration measurements.
 ```python
 df['y_CO2_bl / ppm'] = df['y_CO2 / ppm'] - baseline
@@ -120,7 +120,7 @@ Following the pre-processing steps in `preprocess_data.py`, the main analysis is
 
 ### Experimental Metadata Configuration
 
-The [`util.py`](../src/util.py) file contains configuration dictionaries for experimental parameters:
+The `util.py` file contains configuration dictionaries for experimental parameters:
 
 ```python
 thickness_dict = {
@@ -161,6 +161,6 @@ flowchart TD
 
 To implement your own data processing steps:
 
-1. Add new functions to [`data_processing.py`](../src/data_processing.py).
-2. Integrate them into the [`preprocess_data`](../src/data_processing.py) function.
-3. Update the [`time_lag_analysis_workflow`](../src/time_lag_analysis.py) function to use your new processing steps.
+1. Add new functions to `data_processing.py`.
+2. Integrate them into the `preprocess_data` function.
+3. Update the `time_lag_analysis_workflow` function to use your new processing steps.

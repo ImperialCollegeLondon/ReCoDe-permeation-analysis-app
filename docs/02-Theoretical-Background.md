@@ -5,13 +5,14 @@ The time lag method determines a material's diffusion coefficient $(D)$ and solu
 
 ## Introduction to Gas Transport Phenomena
 
-Gas transport through membranes is a fundamental process in many areas of chemical engineering, materials science, and environmental applications. Understanding and quantifying this transport is essential for designing materials for gas separation, barrier materials, and controlled release systems. The gas-polymer system uses throughout this exemplar is carbon dioxide (CO$_2$). in High-Density Polyethylene (HDPE).
+Gas transport through membranes is a fundamental process in many areas of chemical engineering, materials science, and environmental applications. Understanding and quantifying this transport is essential for designing materials for gas separation, barrier materials, and controlled release systems. The gas-polymer system uses throughout this exemplar is carbon dioxide (CO$_2$) in High-Density Polyethylene (HDPE).
 
 ## The Permeation Experiment
 
 A typical gas permeation experiment involves placing a membrane sample between two chambers. One chamber (upstream) is pressurized with the gas of interest, while the other chamber (downstream) is kept at a low pressure, often by using a sweep gas. The amount of gas that permeates through the membrane to the downstream side is then measured over time.
 
 The key steps of the experiment include:
+
 1. A gas is introduced on one side of a membrane at time $t=0$. The downstream pressure is maintained by using a continuously sweeping flow of nitrogen (N$_2$). This ensures the concentration at the downstream face of the membrane remains effectively zero.
 2. The gas flux through the membrane is measured over time on the permeate side.
 3. Initially, there is a transient state as the concentration profile develops in the membrane.
@@ -19,11 +20,11 @@ The key steps of the experiment include:
 
 These key steps are illustrated in Figure 1. 
 
-The time lag method enables a single value of diffusion coefficient to be calcualted based on the measured flux. This is because the transition from the initial transient state (step 3) to steady-state flux (step 4) becomes apparent when plotting the cumulative permeated gas versus time. Extrapolating the linear steady-state portion of this curve yields the time lag, the basis for calculating the diffusion coefficient, as explained in the sections below.
+The time lag method enables a single value of diffusion coefficient to be calculated based on the measured flux. This is because the transition from the initial transient state (step 3) to steady-state flux (step 4) becomes apparent when plotting the cumulative permeated gas versus time. Extrapolating the linear steady-state portion of this curve yields the time lag, the basis for calculating the diffusion coefficient, as explained in the sections below.
 
 <img src="assets/permeation-experiment.png" alt="Permeation Experiment" style="max-width: 600; height: auto;">
 
-*Figure 1: Schematic representation of the permeatin of CO$_2$ through a polymer membrane.*
+*Figure 1: Schematic representation of the permeation of CO$_2$ through a polymer membrane.*
 
 ## The Time Lag Method
 
@@ -51,6 +52,7 @@ The time-lag method is based on Fick's laws of diffusion:
    $$J = -D \frac{\partial C}{\partial x}$$
 
    where:
+   
    - $J$ is the diffusion flux 
    - $D$ is the diffusion coefficient 
    - $C$ is the concentration 
@@ -65,6 +67,7 @@ The time-lag method is based on Fick's laws of diffusion:
 3. Boundary Conditions:
 
    For a membrane of thickness $L$:
+
    - $C(0,t) = C_{eq}$ (upstream side concentration)
    - $C(L,t) = 0$ (downstream side concentration, assumed to be perfectly evacuated)
    - $C(x,0) = 0$ (initial condition: no gas in membrane)

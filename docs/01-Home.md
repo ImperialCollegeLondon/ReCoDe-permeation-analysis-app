@@ -40,16 +40,16 @@ This exemplar assumes you have:
 
 The implementation follows these key steps:
 
-1. **Data Loading and Preprocessing** - Loading experimental data files and preparing data for analysis.
-2. **Stabilisation Time Detection** - Identifying when the system reaches steady-state permeation.
-3. **Linear Regression of Steady-State Data** - Fitting the steady-state portion of the flux curve.
-4. **Time Lag Calculation** - Determining the time lag from the linear regression.
-5. **Diffusion Coefficient Determination** - Calculating diffusion coefficient from time lag.
-6. **Permeability and Solubility Calculation** - Computing additional transport parameters.
-7. **PDE-Based Validation** - Numerically solving the diffusion equation to validate results.
-8. **Visualisation** - Creating plots and visual representations of the analysis.
-9. **Workflow Integration** - Combining all steps into a cohesive analysis pipeline.
-10. **GUI Implementation** - Building a user-friendly interface to the analysis tools.
+1. Data Loading and Preprocessing - Loading experimental data files and preparing data for analysis.
+2. Stabilisation Time Detection - Identifying when the system reaches steady-state permeation.
+3. Linear Regression of Steady-State Data - Fitting the steady-state portion of the flux curve.
+4. Time Lag Calculation - Determining the time lag from the linear regression.
+5. Diffusion Coefficient Determination - Calculating diffusion coefficient from time lag.
+6. Permeability and Solubility Calculation - Computing additional transport parameters.
+7. PDE-Based Validation - Numerically solving the diffusion equation to validate results.
+8. Visualisation - Creating plots and visual representations of the analysis.
+9. Workflow Integration - Combining all steps into a cohesive analysis pipeline.
+10. GUI Implementation - Building a user-friendly interface to the analysis tools.
 
 ## Navigation Guide
 

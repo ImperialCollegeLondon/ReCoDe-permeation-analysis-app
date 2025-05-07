@@ -49,22 +49,22 @@ The following practices offer guidance for adapting this code for your research 
 
 ### 1. Modularity and Code Structure
 
-*   **Keep components separate:** Maintain the separation between data processing, core calculations, PDE solving, and the user interface. This makes the code easier to understand, test, and modify.
-*   **Use functions effectively:** Break down complex tasks into smaller, reusable functions with clear purposes, as demonstrated by the helper functions (`_setup_grid`, `_calculate_flux`, etc.).
-*   **Object-Oriented Programming (OOP):** For more complex applications, consider using classes to encapsulate data and related functionality (e.g., a `MembraneSimulation` class).
+*   Keep components separate: Maintain the separation between data processing, core calculations, PDE solving, and the user interface. This makes the code easier to understand, test, and modify.
+*   Use functions effectively: Break down complex tasks into smaller, reusable functions with clear purposes, as demonstrated by the helper functions (`_setup_grid`, `_calculate_flux`, etc.).
+*   Object-Oriented Programming (OOP): For more complex applications, consider using classes to encapsulate data and related functionality (e.g., a `MembraneSimulation` class).
 
 ### 2. Numerical Methods and Validation
 
-*   **Understand solver limitations:** Be aware of the assumptions and limitations of the chosen numerical methods (e.g., Method of Lines, BDF solver). It is best to consult the SciPy documentation for [`solve_ivp`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html) and other solvers, including [`ode_int`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html), to choose the best option for your applications.
-*   **Grid independence study:** Verify that the numerical solution (concentration profile, flux) does not significantly change when refining the spatial (`dx`) and temporal (`dt`) discretisation.
-*   **Parameter sensitivity:** Analyse how sensitive the results are to input parameters (e.g., `rtol`, `atol`, `diffusion_coeff`).
-*   **Validate against known solutions:** Whenever possible, test your implementation against analytical solutions or results from literature for simplified cases.
+*   Understand solver limitations: Be aware of the assumptions and limitations of the chosen numerical methods (e.g., Method of Lines, BDF solver). It is best to consult the SciPy documentation for [`solve_ivp`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.solve_ivp.html) and other solvers, including [`ode_int`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.integrate.odeint.html), to choose the best option for your applications.
+*   Grid independence study: Verify that the numerical solution (concentration profile, flux) does not significantly change when refining the spatial (`dx`) and temporal (`dt`) discretisation.
+*   Parameter sensitivity: Analyse how sensitive the results are to input parameters (e.g., `rtol`, `atol`, `diffusion_coeff`).
+*   Validate against known solutions: Whenever possible, test your implementation against analytical solutions or results from literature for simplified cases.
 
 ### 3. Data Handling and Management
 
-*   **Input validation:** Add checks to ensure input data (from files or GUI) is in the expected format and range.
-*   **Clear units:** Consistently track and document units throughout the calculations, as done in the variable names and comments in `calculations.py`.
-*   **Data provenance:** Keep records of the raw data, processing steps, and software versions used to generate results.
+*   Input validation: Add checks to ensure input data (from files or GUI) is in the expected format and range.
+*   Clear units: Consistently track and document units throughout the calculations, as done in the variable names and comments in `calculations.py`.
+*   Data provenance: Keep records of the raw data, processing steps, and software versions used to generate results.
 
 ## Acknowledgements and Closing Remarks
 

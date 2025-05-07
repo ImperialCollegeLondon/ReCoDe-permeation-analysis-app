@@ -14,9 +14,9 @@ The `plot_time_lag_analysis` function plots the cumulative flux (y-axis) against
 
 The core features are:
 
-- **Experimental Data**: The cumulative flux based on raw data is plotted as a function of time.
-- **Steady-State Fit**: A linear fit to the steady-state portion of the curve.
-- **Extrapolation**: An extension of the steady-state line to earlier times. This provides visual determination for time lag $(\theta)$.
+- Experimental data: The cumulative flux based on raw data is plotted as a function of time.
+- Steady-state fit: A linear fit to the steady-state portion of the curve.
+- Extrapolation: An extension of the steady-state line to earlier times. This provides visual determination for time lag $(\theta)$.
 
 ![Time Lag Analysis Plot](assets/sample_plot_time_lag_analysis.png){: style="max-width:500px; height:auto;"}
 
@@ -28,8 +28,8 @@ The `plot_flux_over_time` function plots flux (y-axis) against time (x-axis), co
 
 The core features are:
 
-- **Theoretical Curve**: Displayed as a continuous line to represent the model prediction.
-- **Experimental Data**: Plotted as points to show the raw measurements.
+- Theoretical curve: Displayed as a continuous line to represent the model prediction.
+- Experimental data: Plotted as points to show the raw measurements.
 
 ![Flux Profile Comparison Plot](assets/sample_plot_flux_over_time.png){: style="max-width:500px; height:auto;"}
 
@@ -41,8 +41,8 @@ The `plot_concentration_location_profile` function plots multiple curves for the
 
 The core features are:
 
-- **Multiple Time Points**: Multiple curves reprent different time snapshot of concentration-time profile during the diffusion process.
-- **Spatial Dimension**: Displays concentration as a function of position within the membrane.
+- Multiple time points: Multiple curves reprent different time snapshot of concentration-time profile during the diffusion process.
+- Spatial dimension: Displays concentration as a function of position within the membrane.
 
 ![Concentration Profile Snapshot Plot](assets/sample_plot_concentration_location_profile.png){: style="max-width:500px; height:auto;"}
 
@@ -54,8 +54,8 @@ In contrast, the `plot_concentration_profile` function creates a 2D heatmap that
 
 The core features are:
 
-- **Heatmap Representation**: Uses blue-to-red colour gradient to represent low-to-high gas concentration.
-- **Temporal and Temporal Dimensions**: Displays the concentration evolution continuously over time and position within the membrane.
+- Heatmap representation: Uses blue-to-red colour gradient to represent low-to-high gas concentration.
+- Temporal and spatial dimensions: Displays the concentration evolution continuously over time and position within the membrane.
 
 ![Concentration Profile Heatmap Plot](assets/sample_plot_concentration_profile.png){: style="max-width:500px; height:auto;"}
 
@@ -81,18 +81,17 @@ The styling is done through modifying Matplotlib's [`rcParams`](https://matplotl
 
 Centralising styling decisions in a one function yield key benefits:
 
-1. **Consistency**: All plots share the same visual style, creating a cohesive look and feel aligning with a chosen standards (e.g., tailored to a specific journal's style).
-2. **Maintainability**: Style changes can be made in one location rather than throughout the codebase.
+1. Consistency: All plots share the same visual style, creating a cohesive look and feel aligning with a chosen standards (e.g., tailored to a specific journal's style).
+2. Maintainability: Style changes can be made in one location rather than throughout the codebase.
 
 
 ## Design Advantages
 
 Using this approach of seprate plotting functions and a style-setting function offers several advantages:
 
-1. **Separation of Concerns**: Visualisation logic is separated from analysis code.
-2. **Consistent Styling**: All plots have a cohesive style.
-3. **Customisability**: Functions accept optional figure and axes objects for further customization.
-5. **Integration**: Seamlessly integrates with the analysis workflow.
+1. Separation of concerns: Visualisation logic is separated from analysis code.
+2. Consistent styling: All plots have a cohesive style.
+3. Customisability: Functions accept optional figure and axes objects for further customization.
+4. Integration: Seamlessly integrates with the analysis workflow.
 
 This approach with independent plotting functions simplifies integration into the overall workflow and the GUI, which are discussed further in [`08-Application-Workflow`](08-Application-Workflow.md) and [`07-GUI-Implementation`](07-GUI-Implementation.md), respectively."
-````

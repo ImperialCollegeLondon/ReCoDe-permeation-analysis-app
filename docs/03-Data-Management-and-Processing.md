@@ -6,11 +6,11 @@
 
 Good data management is essential for reproducible research. When working with experimental data, consider these practices:
 
-1. **Consistent file naming**: Use descriptive, consistent naming schemes (e.g., `RUN_H_25C-100bar_7.xlsx` clearly indicates temperature and pressure conditions).
-2. **Data organisation**: Organise data in a logical folder structure with clear separation between raw data and processed outputs.
-3. **Metadata recording**: Document experimental conditions, sample details, and measurement parameters.
-4. **Version control**: Track changes to your data processing scripts using version control systems such as Git.
-5. **Data backup**: Regularly back up your research data to prevent loss. Utilise cloud storage services (like OneDrive) when possible.
+1. Consistent file naming: Use descriptive, consistent naming schemes (e.g., `RUN_H_25C-100bar_7.xlsx` clearly indicates temperature and pressure conditions).
+2. Data organisation: Organise data in a logical folder structure with clear separation between raw data and processed outputs.
+3. Metadata recording: Document experimental conditions, sample details, and measurement parameters.
+4. Version control: Track changes to your data processing scripts using version control systems such as Git.
+5. Data backup: Regularly back up your research data to prevent loss. Utilise cloud storage services (like OneDrive) when possible.
 
 ### Data Structure for Time-Lag Analysis
 
@@ -35,17 +35,17 @@ Raw experimental data is loaded from Excel files using the `load_data` function.
 
 The `preprocess_data` function performs several preprocessing steps:
 
-1. **Baseline correction**: Remove background signals from gas concentration measurements.
+1. Baseline correction: Remove background signals from gas concentration measurements.
 ```python
 df['y_CO2_bl / ppm'] = df['y_CO2 / ppm'] - baseline
 ```
 
-2. **Pressure conversion**: Convert pressure readings to standard units (bar).
+2. Pressure conversion: Convert pressure readings to standard units (bar).
 ```python
 df['P_cell / bar'] = df['P_cell / barg'] + 1.01325
 ```
 
-3. **Flux calculation**: Calculate gas flux through the membrane from provided polymer disc thickness (`d_cm`) and N₂ sweeping gas flowrate (`qN2_mlmin`).
+3. Flux calculation: Calculate gas flux through the membrane from provided polymer disc thickness (`d_cm`) and N₂ sweeping gas flowrate (`qN2_mlmin`).
 ```python
 # Calculate Area of disc
 A_cm2 = (math.pi * d_cm**2) / 4 # [cm^2]
@@ -122,10 +122,10 @@ When using the application, ensure your data files adhere to the following speci
 
 Following the pre-processing steps in `preprocess_data.py`, the main analysis is performed in `calculation.py` (explained in depth in `04-TimelagAnalysis-Implementation`). These steps are encompassed in the complete workflow function `time_lag_analysis_workflow` in `time_lag_analysis.py`. The workflow will be explained in depth in `08-Application-Workflow`. This workflow can generate several output files:
 
-1. **Preprocessed data**: Contains the cleaned and transformed experimental data.
-2. **Time lag analysis results**: Contains the calculated parameters (diffusion coefficient, permeability, etc.).
-3. **Concentration profiles**: Shows how gas concentration changes with position and time.
-4. **Flux profiles**: Shows the calculated gas flux over time.
+1. Preprocessed data: Contains the cleaned and transformed experimental data.
+2. Time lag analysis results: Contains the calculated parameters (diffusion coefficient, permeability, etc.).
+3. Concentration profiles: Shows how gas concentration changes with position and time.
+4. Flux profiles: Shows the calculated gas flux over time.
 
 ### Experimental Metadata Configuration
 

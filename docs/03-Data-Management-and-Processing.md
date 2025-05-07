@@ -6,11 +6,11 @@
 
 Good data management is essential for reproducible research. When working with experimental data, consider these practices:
 
-1. **Consistent file naming**: Use descriptive, consistent naming schemes (e.g., `RUN_H_25C-100bar_7.xlsx` clearly indicates temperature and pressure conditions).
-2. **Data organisation**: Organise data in a logical folder structure with clear separation between raw data and processed outputs.
-3. **Metadata recording**: Document experimental conditions, sample details, and measurement parameters.
-4. **Version control**: Track changes to your data processing scripts using version control systems such as Git.
-5. **Data backup**: Regularly back up your research data to prevent loss. Utilise cloud storage services (like OneDrive) when possible.
+1. Consistent file naming: Use descriptive, consistent naming schemes (e.g., `RUN_H_25C-100bar_7.xlsx` clearly indicates temperature and pressure conditions).
+2. Data organisation: Organise data in a logical folder structure with clear separation between raw data and processed outputs.
+3. Metadata recording: Document experimental conditions, sample details, and measurement parameters.
+4. Version control: Track changes to your data processing scripts using version control systems such as Git.
+5. Data backup: Regularly back up your research data to prevent loss. Utilise cloud storage services (like OneDrive) when possible.
 
 ### Data Structure for Time-Lag Analysis
 
@@ -29,20 +29,23 @@ The application implements a data processing pipeline in `data_processing.py` co
 
 ### 1. Loading Data
 
-Raw experimental data is loaded from Excel files using the [`load_data`](../src/data_processing.py#L10) function.
+Raw experimental data is loaded from Excel files using the `load_data` function.
 
 ### 2. Data Preprocessing
 
-The [`preprocess_data`](../src/data_processing.py#134) function performs several preprocessing steps:
-1. **Baseline correction**: Remove background signals from gas concentration measurements.
+The `preprocess_data` function performs several preprocessing steps:
+
+1. Baseline correction: Remove background signals from gas concentration measurements.
 ```python
 df['y_CO2_bl / ppm'] = df['y_CO2 / ppm'] - baseline
 ```
-2. **Pressure conversion**: Convert pressure readings to standard units (bar).
+
+2. Pressure conversion: Convert pressure readings to standard units (bar).
 ```python
 df['P_cell / bar'] = df['P_cell / barg'] + 1.01325
 ```
-3. **Flux calculation**: Calculate gas flux through the membrane from provided polymer disc thickness (`d_cm`) and N₂ sweeping gas flowrate (`qN2_mlmin`).
+
+3. Flux calculation: Calculate gas flux through the membrane from provided polymer disc thickness (`d_cm`) and N₂ sweeping gas flowrate (`qN2_mlmin`).
 ```python
 # Calculate Area of disc
 A_cm2 = (math.pi * d_cm**2) / 4 # [cm^2]
@@ -57,6 +60,7 @@ elif 'qN2 / ml min^-1' not in df.columns:
 if unit == 'cm^3 cm^-2 s^-1' or unit == 'None':
     df['flux / cm^3(STP) cm^-2 s^-1'] = (df['qN2 / ml min^-1'] / 60) * (df['y_CO2_bl / ppm'] * 1e-6) / A_cm2
 ```
+
 4. **Cumulative flux calculation**: Integrate experimental flux over time to obtain cumulative flux.
 ```python
 df['cumulative flux / cm^3(STP) cm^-2'] = (df['flux / cm^3(STP) cm^-2 s^-1'] * df['t / s'].diff().fillna(0)).cumsum()
@@ -64,11 +68,15 @@ df['cumulative flux / cm^3(STP) cm^-2'] = (df['flux / cm^3(STP) cm^-2 s^-1'] * d
 
 ### 3. Stabilization Time Detection
 
-An important aspect of time-lag analysis is determining when steady-state diffusion has been reached. This is performed in `identify_stabilisation_time` function. The following steps are performed:
+An important aspect of time-lag analysis is determining when steady-state diffusion has been reached. This is performed in `identify_stabilisation_time` function.
+
+The following steps are performed:
+
 1. Calculates the gradient of the specified data column.
 ```python
 df['gradient'] = (df[column].diff() / df['t / s'].diff())
 ```
+
 2. Examines changes in this gradient over a rolling window.
 ```python
 df['pct_change_mean'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).mean()
@@ -76,6 +84,7 @@ df['pct_change_min'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs
 df['pct_change_max'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).max()
 df['pct_change_median'] = (df[column].diff() / df['t / s'].diff()).pct_change().abs().rolling(window=window).median()
 ```
+
 3. Identifies when changes fall below a specified threshold.
 ```python
 stabilisation_index = df[((df['pct_change_mean'] <= threshold))].index[0]
@@ -113,14 +122,14 @@ When using the application, ensure your data files adhere to the following speci
 
 Following the pre-processing steps in `preprocess_data.py`, the main analysis is performed in `calculation.py` (explained in depth in `04-TimelagAnalysis-Implementation`). These steps are encompassed in the complete workflow function `time_lag_analysis_workflow` in `time_lag_analysis.py`. The workflow will be explained in depth in `08-Application-Workflow`. This workflow can generate several output files:
 
-1. **Preprocessed data**: Contains the cleaned and transformed experimental data.
-2. **Time lag analysis results**: Contains the calculated parameters (diffusion coefficient, permeability, etc.).
-3. **Concentration profiles**: Shows how gas concentration changes with position and time.
-4. **Flux profiles**: Shows the calculated gas flux over time.
+1. Preprocessed data: Contains the cleaned and transformed experimental data.
+2. Time lag analysis results: Contains the calculated parameters (diffusion coefficient, permeability, etc.).
+3. Concentration profiles: Shows how gas concentration changes with position and time.
+4. Flux profiles: Shows the calculated gas flux over time.
 
 ### Experimental Metadata Configuration
 
-The [`util.py`](../src/util.py) file contains configuration dictionaries for experimental parameters:
+The `util.py` file contains configuration dictionaries for experimental parameters:
 
 ```python
 thickness_dict = {
@@ -161,6 +170,6 @@ flowchart TD
 
 To implement your own data processing steps:
 
-1. Add new functions to [`data_processing.py`](../src/data_processing.py).
-2. Integrate them into the [`preprocess_data`](../src/data_processing.py) function.
-3. Update the [`time_lag_analysis_workflow`](../src/time_lag_analysis.py) function to use your new processing steps.
+1. Add new functions to `data_processing.py`.
+2. Integrate them into the `preprocess_data` function.
+3. Update the `time_lag_analysis_workflow` function to use your new processing steps.

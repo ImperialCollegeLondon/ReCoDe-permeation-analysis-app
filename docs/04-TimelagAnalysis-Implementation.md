@@ -19,17 +19,21 @@ These steps form the analytical core of the time lag method (covered in [`02-The
 ### 1. Linear Regression of Steady-State Data
 
 First, the steady-state region of flux is filtered. This corresponds to a linear change of cumulative flux against time as seen in the plot in [`02-Theoretical-Background`](02-Theoretical-Background.md).
+
 ```python
 # Filter to steady-state data
 df_ss = df[df['t / s'] > stabilisation_time_s]
 ```
 
-Next, the core calculation uses NumPy's [`polyfit`](https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html) function to perform linear regression on the filtered  portion of the cumulative flux curve. 
+Next, the core calculation uses NumPy's [`polyfit`](https://numpy.org/doc/stable/reference/generated/numpy.polyfit.html) function to perform linear regression on the filtered  portion of the cumulative flux curve.
+
 ```python
 # Fitting straight line to the steady-state data
 slope, intercept = np.polyfit(df_ss['t / s'], df_ss['cumulative flux / cm^3(STP) cm^-2'], 1)
 ```
+
 This fits the data to the linear equation $y = mx + c$, where:
+
 - $y$ is the cumulative flux (`cumulative flux / cm^3(STP) cm^-2`)
 - $x$ is the time (`t / s`)
 - $m$ is the `slope` variable

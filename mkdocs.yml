@@ -53,6 +53,7 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+  - attr_list
 
 # Render math in mkdocs
 extra_javascript:

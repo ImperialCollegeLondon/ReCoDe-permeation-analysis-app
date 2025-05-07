@@ -18,7 +18,7 @@ The core features are:
 - **Steady-State Fit**: A linear fit to the steady-state portion of the curve.
 - **Extrapolation**: An extension of the steady-state line to earlier times. This provides visual determination for time lag $(\theta)$.
 
-<img src="assets/sample_plot_time_lag_analysis.png" alt="Time Lag Analysis Plot" style="max-width: 500; height: auto;">
+![Time Lag Analysis Plot](assets/sample_plot_time_lag_analysis.png){: style="max-width:500px; height:auto;"}
 
 *Figure 1: Example time lag analysis plot (`RUN_H_25C-100bar_9` data) produced by the `plot_time_lag_analysis` function.*
 
@@ -31,7 +31,7 @@ The core features are:
 - **Theoretical Curve**: Displayed as a continuous line to represent the model prediction.
 - **Experimental Data**: Plotted as points to show the raw measurements.
 
-<img src="assets/sample_plot_flux_over_time.png" alt="Flux Profile Comparison Plot" style="max-width: 500; height: auto;">
+![Flux Profile Comparison Plot](assets/sample_plot_flux_over_time.png){: style="max-width:500px; height:auto;"}
 
 *Figure 2: Example of flux comparison plot (`RUN_H_25C-100bar_9` data) produced by the `plot_flux_over_time` function.*
 
@@ -44,7 +44,7 @@ The core features are:
 - **Multiple Time Points**: Multiple curves reprent different time snapshot of concentration-time profile during the diffusion process.
 - **Spatial Dimension**: Displays concentration as a function of position within the membrane.
 
-<img src="assets/sample_plot_concentration_location_profile.png" alt="Concentration Profile Snapshot Plot" style="max-width: 500; height: auto;">
+![Concentration Profile Snapshot Plot](assets/sample_plot_concentration_location_profile.png){: style="max-width:500px; height:auto;"}
 
 *Figure 3: Example of the concentration profile snapshot plot (`RUN_H_25C-100bar_9` data) produced by the `plot_concentration_location_profile` function.*
 
@@ -57,7 +57,7 @@ The core features are:
 - **Heatmap Representation**: Uses blue-to-red colour gradient to represent low-to-high gas concentration.
 - **Temporal and Temporal Dimensions**: Displays the concentration evolution continuously over time and position within the membrane.
 
-<img src="assets/sample_plot_concentration_profile.png" alt="Concentration Profile Heatmap Plot" style="max-width: 500; height: auto;">
+![Concentration Profile Heatmap Plot](assets/sample_plot_concentration_profile.png){: style="max-width:500px; height:auto;"}
 
 *Figure 4: Example of the concentration profile hetmap plot (`RUN_H_25C-100bar_9` data) produced by the `plot_concentration_profile` function.*
 
@@ -95,3 +95,4 @@ Using this approach of seprate plotting functions and a style-setting function o
 5. **Integration**: Seamlessly integrates with the analysis workflow.
 
 This approach with independent plotting functions simplifies integration into the overall workflow and the GUI, which are discussed further in [`08-Application-Workflow`](08-Application-Workflow.md) and [`07-GUI-Implementation`](07-GUI-Implementation.md), respectively."
+````

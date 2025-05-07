@@ -20,11 +20,11 @@ The key steps of the experiment include:
 
 These key steps are illustrated in Figure 1. 
 
-The time lag method enables a single value of diffusion coefficient to be calculated based on the measured flux. This is because the transition from the initial transient state (step 3) to steady-state flux (step 4) becomes apparent when plotting the cumulative permeated gas versus time. Extrapolating the linear steady-state portion of this curve yields the time lag, the basis for calculating the diffusion coefficient, as explained in the sections below.
-
-<img src="assets/permeation-experiment.png" alt="Permeation Experiment" style="max-width: 600; height: auto;">
+![Permeation Experiment](assets/permeation-experiment.png){: style="max-width:600px; height:auto;"}
 
 *Figure 1: Schematic representation of the permeation of CO$_2$ through a polymer membrane.*
+
+The time lag method enables a single value of diffusion coefficient to be calculated based on the measured flux. This is because the transition from the initial transient state (step 3) to steady-state flux (step 4) becomes apparent when plotting the cumulative permeated gas versus time. Extrapolating the linear steady-state portion of this curve yields the time lag, the basis for calculating the diffusion coefficient, as explained in the sections below.
 
 ## The Time Lag Method
 
@@ -76,11 +76,11 @@ The time-lag method is based on Fick's laws of diffusion:
 
 Figures 2 and 3 below visualise the solution to Fick's Second Law for the specified boundary conditions, obtained using the numerical methods described in [`05-Python-PDE-Implementation`](05-Python-PDE-Implementation.md). Figure 2 presents the concentration evolution $C(x,t)$ as a heatmap, while Figure 3 shows concentration profiles $C(x)$ at discrete time points. These specific plots correspond to the parameters derived from the `RUN_H_25C-100bar_9.csv` dataset.
 
-<img src="assets/RUN_H_25C-100bar_9_Concentration-vs-time-heatmap.png" alt="Concentration Heatmap" style="max-width: 500; height: auto;">
+![Concentration Heatmap](assets/RUN_H_25C-100bar_9_Concentration-vs-time-heatmap.png){: style="max-width:500px; height:auto;"}
 
 *Figure 2: Concentration profile evolution over time.*
 
-<img src="assets/RUN_H_25C-100bar_9_Concentration-vs-time-lines.png" alt="Concentration Profiles at Different Times" style="max-width: 500; height: auto;">
+![Concentration Profiles at Different Times](assets/RUN_H_25C-100bar_9_Concentration-vs-time-lines.png){: style="max-width:500px; height:auto;"}
 
 *Figure 3: Concentration profiles at specific time points.*
 
@@ -104,7 +104,7 @@ Observing the figures provides insights into the diffusion process governed by F
 
 ### The Time Lag Derivation
 
-<img src="assets/time-lag-analysis-plot.png" alt="Time Lag Analysis Plot" style="max-width: 300; height: auto;">
+![Time Lag Analysis Plot](assets/time-lag-analysis-plot.png){: style="max-width:300px; height:auto;"}
 
 *Figure 4:  Graphical determination of the time lag $(\theta)$ by extrapolating the linear steady-state region of the cumulative flux curve to the time axis [3].*
 

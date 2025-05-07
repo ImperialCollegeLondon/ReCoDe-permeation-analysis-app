@@ -13,13 +13,19 @@ By using this application, you will:
 -   Get hands-on experience with a GUI for scientific data analysis.
 -   Be able to adapt the application to your specific research interests.
 
-| Task       | Time    |
-| ---------- | ------- |
-| Reading    | 3 hours |
-| --- | 3 hours |
-| --- | x horus |
-| --- | x horus |
-
+| Task                                                                 | Time     |
+| -------------------------------------------------------------------- | -------- |
+| [Introduction](docs/01-Home.md)                                       | 20 mins  |
+| [Understanding Theoretical Background](docs/02-Theoretical-Background.md)                     | 30 mins  |
+| [Data Management and Processing](docs/03-Data-Management-and-Processing.md)             | 25 mins  |
+| [Time Lag Analysis Implementation](docs/04-TimelagAnalysis-Implementation.md)             | 25 mins  |
+| [Python PDE Implementation](docs/05-Python-PDE-Implementation.md)                  | 25 mins  |
+| [Visualisation Techniques](docs/06-Visualisation.md)                              | 20 mins  |
+| [GUI Implementation](docs/07-GUI-Implementation.md)                       | 15 mins  |
+| [Application Workflow](docs/08-Application-Workflow.md)                       | 20 mins  |
+| **Subtotal: Core Documentation**                                     | **3 hours** |
+| [Exercises and Best Practices](docs/09-Exercises-and-Best-Practices.md)               | 3 hours  |
+| **Total Estimated Time**                                             | **6 hours** |
 
 ## Requirements
 

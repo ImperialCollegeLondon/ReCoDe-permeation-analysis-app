@@ -157,7 +157,8 @@ Code is organised into logical components:
 ## Data 📊
 
 Example datasets are provided in the `data/` directory. These are Excel files (`.xlsx`) representing typical raw data from gas permeation experiments.
-- Licensing: These are synthetic or anonymised data for demonstration purposes.
+
+- Licensing: The provided data may be synthetic or anonymised for demonstration purposes within this exemplar. This data remains the property of the original owner, and permission must be sought for any use outside of this exemplar.
 - Location: Included directly in the repository under the `data/` folder.
 
 ## Best Practice Notes 📝

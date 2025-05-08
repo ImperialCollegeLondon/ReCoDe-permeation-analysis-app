@@ -20,7 +20,7 @@ The key steps of the experiment include:
 
 These key steps are illustrated in Figure 1. 
 
-![Permeation Experiment](assets/permeation-experiment.png){: style="max-width:600px; height:auto;"}
+![Permeation Experiment](assets/permeation-experiment.png){: style="display:block; margin:auto; width:86%"}
 
 *Figure 1: Schematic representation of the permeation of CO$_2$ through a polymer membrane.*
 
@@ -76,11 +76,11 @@ The time-lag method is based on Fick's laws of diffusion:
 
 Figures 2 and 3 below visualise the solution to Fick's Second Law for the specified boundary conditions, obtained using the numerical methods described in [`05-Python-PDE-Implementation`](05-Python-PDE-Implementation.md). Figure 2 presents the concentration evolution $C(x,t)$ as a heatmap, while Figure 3 shows concentration profiles $C(x)$ at discrete time points. These specific plots correspond to the parameters derived from the `RUN_H_25C-100bar_9.csv` dataset.
 
-![Concentration Heatmap](assets/RUN_H_25C-100bar_9_Concentration-vs-time-heatmap.png){: style="max-width:500px; height:auto;"}
+![Concentration Heatmap](assets/RUN_H_25C-100bar_9_Concentration-vs-time-heatmap.png){: style="display:block; margin:auto; width:86%"}
 
 *Figure 2: Concentration profile evolution over time.*
 
-![Concentration Profiles at Different Times](assets/RUN_H_25C-100bar_9_Concentration-vs-time-lines.png){: style="max-width:500px; height:auto;"}
+![Concentration Profiles at Different Times](assets/RUN_H_25C-100bar_9_Concentration-vs-time-lines.png){: style="display:block; margin:auto; width:86%"}
 
 *Figure 3: Concentration profiles at specific time points.*
 
@@ -104,7 +104,7 @@ Observing the figures provides insights into the diffusion process governed by F
 
 ### The Time Lag Derivation
 
-![Time Lag Analysis Plot](assets/time-lag-analysis-plot.png){: style="max-width:300px; height:auto;"}
+![Time Lag Analysis Plot](assets/time-lag-analysis-plot.png){: style="display:block; margin:auto; width:86%"}
 
 *Figure 4:  Graphical determination of the time lag $(\theta)$ by extrapolating the linear steady-state region of the cumulative flux curve to the time axis [3].*
 

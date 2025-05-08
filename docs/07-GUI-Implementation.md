@@ -4,7 +4,7 @@
 
 This document outlines the implementation of the Graphical User Interface (GUI) in `app.py`. The GUI provides an interactive front-end for the time lag analysis workflow, allowing users to select data, input parameters, execute calculations, and visualise results. A snapshot is provided in Figure 1. It leverages the CustomTkinter library for modern UI elements and integrates Matplotlib for plotting.
 
-![GUI Demo](assets/GUI-demo.gif){: style="max-width:600px; height:auto;"}
+![GUI Demo](assets/GUI-demo.gif){: style="display:block; margin:auto; width:86%"}
 
 *Figure 1: Demonstration of the GUI.*
 

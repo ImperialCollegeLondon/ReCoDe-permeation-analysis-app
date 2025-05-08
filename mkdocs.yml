@@ -1,4 +1,4 @@
-site_name: ReCoDE Exemplar Template
+site_name: ReCoDE Permeation Analysis App
 repo_url: https://github.com/ImperialCollegeLondon/ReCoDe-permeation-analysis-app
 
 ## Please change the above name and link to point to your exemplar
@@ -53,6 +53,10 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - attr_list
 
 # Render math in mkdocs

@@ -37,7 +37,7 @@ The core features are:
 
 ### 3. Concentration Profile Snapshot Plot
 
-The `plot_concentration_location_profile` function plots multiple curves for the spatial distribution of gas concentration (y-axis) along the position within the membrane (x-axis), with each curve representing a **specific snapshot in time**. This helps with the intuitive understanding of the gas diffusion process within the membrane and validate that the PDE solver is correctly implementing the physical model.
+The `plot_concentration_location_profile` function plots multiple curves for the spatial distribution of gas concentration (y-axis) along the position within the membrane (x-axis), with each curve representing a specific *snapshot in time*. This helps with the intuitive understanding of the gas diffusion process within the membrane and validate that the PDE solver is correctly implementing the physical model.
 
 The core features are:
 
@@ -48,9 +48,9 @@ The core features are:
 
 *Figure 3: Example of the concentration profile snapshot plot (`RUN_H_25C-100bar_9` data) produced by the `plot_concentration_location_profile` function.*
 
-#### 4. Concentration Profile Heatmap Plot
+### 4. Concentration Profile Heatmap Plot
 
-In contrast, the `plot_concentration_profile` function creates a 2D heatmap that visualises the gas concentration (colour intensity) across both membrane position (x-axis) and continuous time (y-axis). This provides a comprehensive overview of evolution of the concentration profile throughout the membrane over the full duration, complementing the discrete snapshots provided by `plot_concentration_location_profile`.
+In contrast, the `plot_concentration_profile` function creates a 2D heatmap that visualises the gas concentration (colour intensity) across both membrane position (x-axis) and *continuous time* (y-axis). This provides a comprehensive overview of evolution of the concentration profile throughout the membrane over the full duration, complementing the discrete snapshots provided by `plot_concentration_location_profile`.
 
 The core features are:
 
@@ -74,7 +74,7 @@ The styling is done through modifying Matplotlib's [`rcParams`](https://matplotl
     plt.rcParams['font.size'] = 10
     plt.rcParams['font.family'] = 'sans-serif'
     plt.rcParams["mathtext.default"] = "regular"  # same as regular text
-    # More rcParams modifications are provided in the code
+    # other rcParams modifications...
 ```
 
 ### Benefits

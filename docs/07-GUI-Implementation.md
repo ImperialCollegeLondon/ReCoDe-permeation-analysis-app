@@ -14,11 +14,11 @@ The core design aims for clarity and ease of use, separating user inputs from re
 
 1.  Framework choice: [`customtkinter`](https://customtkinter.tomschimansky.com/) is a modern UI-library based on Tkinter. It is selected for its modern appearance and theme support, providing a better user experience than standard Tkinter. [`matplotlib`](https://matplotlib.org/) is used for its flexible plotting capabilities, integrated with `customtkinter` via `FigureCanvasTkAgg`.
 
-2.  **Layout Strategy**: The main application window (`App` class) utilises a `grid` layout. It's divided into three primary sections:
+2.  Layout strategy: The main application window (`App` class) utilises a `grid` layout. It's divided into three primary sections:
 
-    *   **Input Panel (Left)**: Contains all user controls (file selection, parameter entries, buttons) and the numerical results text box (`result_text`). This panel occupies less horizontal space.
-    *   **Plot Panel (Right)**: Dedicated to displaying the four key analysis plots. This panel is configured to expand significantly more than the input panel when the window is resized horizontally, ensuring ample space for visualisations.
-    *   **Footer (Bottom)**: Displays static information (author, version) and does not expand vertically when the window is resized.
+    *   Input panel (left): Contains all user controls (file selection, parameter entries, buttons) and the numerical results text box (`result_text`). This panel occupies less horizontal space.
+    *   Plot panel (right): Dedicated to displaying the four key analysis plots. This panel is configured to expand significantly more than the input panel when the window is resized horizontally, ensuring ample space for visualisations.
+    *   Footer (bottom): Displays static information (author, version) and does not expand vertically when the window is resized.
 
 ## Designing CustomTkinter Elements
 
@@ -109,7 +109,7 @@ This structure ensures that calculations are performed first, and the results ar
 
 The GUI facilitates a clear flow of data from user input to final results:
 
-1.  User Input collection: When `run_analysis` is triggered, values are read directly from UI widgets:
+1.  User input collection: When `run_analysis` is triggered, values are read directly from UI widgets:
 
     *   `self.file_combobox.get()` -> Selected data file path.
     *   `self.d_cm_entry.get()`, `self.L_cm_entry.get()`, `self.qN2_mlmin_entry.get()` -> Experimental parameters (converted to floats).

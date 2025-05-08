@@ -61,7 +61,7 @@ if unit == 'cm^3 cm^-2 s^-1' or unit == 'None':
     df['flux / cm^3(STP) cm^-2 s^-1'] = (df['qN2 / ml min^-1'] / 60) * (df['y_CO2_bl / ppm'] * 1e-6) / A_cm2
 ```
 
-4. **Cumulative flux calculation**: Integrate experimental flux over time to obtain cumulative flux.
+4. Cumulative flux calculation: Integrate experimental flux over time to obtain cumulative flux.
 ```python
 df['cumulative flux / cm^3(STP) cm^-2'] = (df['flux / cm^3(STP) cm^-2 s^-1'] * df['t / s'].diff().fillna(0)).cumsum()
 ```
@@ -144,6 +144,7 @@ qN2_dict = {
 ```
 
 The dictionaries provide essential metadata for each experiment:
+
 - `thickness_dict`: Membrane thickness in cm
 - `qN2_dict`: Nitrogen flow rate in ml/min
 

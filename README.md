@@ -174,7 +174,7 @@ Code is organised into logical components:
     - [Pandas](https://pandas.pydata.org/docs/)
     - [SciPy](https://docs.scipy.org/doc/scipy/)
     - [Matplotlib](https://matplotlib.org/stable/contents.html)
-    - [Tkinter](https://docs.python.org/3/library/tkinter.html)
+    - [CustomTkinter](https://customtkinter.tomschimansky.com/documentation/) (built on [Tkinter](https://docs.python.org/3/library/tkinter.html)).
 
 ## License 📄
 

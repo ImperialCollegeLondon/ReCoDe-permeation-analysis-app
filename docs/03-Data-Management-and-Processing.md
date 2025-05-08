@@ -66,7 +66,7 @@ if unit == 'cm^3 cm^-2 s^-1' or unit == 'None':
 df['cumulative flux / cm^3(STP) cm^-2'] = (df['flux / cm^3(STP) cm^-2 s^-1'] * df['t / s'].diff().fillna(0)).cumsum()
 ```
 
-### 3. Stabilization Time Detection
+### 3. Stabilisation Time Detection
 
 An important aspect of time-lag analysis is determining when steady-state diffusion has been reached. This is performed in `identify_stabilisation_time` function.
 

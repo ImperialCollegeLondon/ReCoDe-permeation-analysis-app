@@ -1,7 +1,8 @@
 # Time Lag Analysis Application
 
 This application provides a user-friendly interface for analysing gas permeation data using the time lag method. Load data from Excel files in `data`, specify your experimental setup, run the analysis, and visualise the results.
-![GUI Snapshot](docs/assets/GUI-snapshot.png)
+
+![GUI Demo](docs/assets/GUI-demo.gif){: .no-caption style="display:block; margin:auto; width:86%"}
 
 This exemplar was developed at Imperial College London by Louis Nguyen in collaboration with Dr. Diego Alonso Alvarez from Research Software Engineering and Dr. Chris Cooling from Research Computing & Data Science at the Early Career Researcher Institute.
 
@@ -23,6 +24,10 @@ This exemplar is aimed at researchers, students, and engineers in fields such as
 - Learn how to implement data analysis workflows in Python.
 - Utilise a graphical user interface for scientific computation.
 
+## Disciplinary Background 🔬
+
+The time-lag method is a widely used experimental technique to determine the diffusion and permeability coefficients of gases or vapours in polymeric membranes. This information is crucial for designing and optimising materials for various applications, such as gas separation, packaging, and protective coatings. This exemplar provides a practical tool and learning resource for performing time-lag analysis, bridging the gap between experimental data acquisition and material property characterisation. It can be useful for researchers in materials science, chemical engineering, polymer chemistry, and any field involving the study of transport phenomena in materials.
+
 ## Prerequisites ✅
 
 ### Academic 📚
@@ -36,6 +41,17 @@ This exemplar is aimed at researchers, students, and engineers in fields such as
 - Anaconda or Miniconda installed on your system.
 - Git (optional, for cloning the repository).
 - Python 3.12+.
+
+## Software Tools 🛠️
+
+- Programming language: Python
+- Core libraries:
+    - NumPy: For numerical operations.
+    - Pandas: For data manipulation and analysis, especially with Excel files.
+    - SciPy: For scientific and technical computing, including curve fitting and optimisation.
+    - Matplotlib: For creating static, interactive, and animated visualisations.
+- GUI: CustomTkinter
+- Environment management: Conda
 
 ## Getting Started 🚀
 
@@ -68,25 +84,33 @@ The application interface allows you to:
     *   Save plots using the "Save" button located at the top right of the plot area.
 
 
+## Data 📊
+
+Example datasets are provided in the `data/` directory. These are Excel files (`.xlsx`) representing typical raw data from gas permeation experiments.
+
+- Licensing: The provided data may be synthetic or anonymised for demonstration purposes within this exemplar. This data remains the property of the original owner, and permission must be sought for any use outside of this exemplar.
+- Location: Included directly in the repository under the `data/` folder.
+
 ## Documentation Guide
 
-1. Explore the documentation in the `docs` folder, starting with `01-Home.md` and progressing through the guides.
-2. Work through the exercises in `09-Exercises-and-Best-Practices.md`.
+1. Explore the documentation in the `docs` folder, starting with [`01-Home.md`](docs/01-Home.md) and progressing through the guides.
+2. Work through the exercises in [`09-Exercises-and-Best-Practices.md`](docs/09-Exercises-and-Best-Practices.md).
 
-## Disciplinary Background 🔬
-     
-The time-lag method is a widely used experimental technique to determine the diffusion and permeability coefficients of gases or vapours in polymeric membranes. This information is crucial for designing and optimising materials for various applications, such as gas separation, packaging, and protective coatings. This exemplar provides a practical tool and learning resource for performing time-lag analysis, bridging the gap between experimental data acquisition and material property characterisation. It can be useful for researchers in materials science, chemical engineering, polymer chemistry, and any field involving the study of transport phenomena in materials.
+## Estimated Time ⏳
 
-## Software Tools 🛠️
-
-- **Programming Language**: Python
-- **Core Libraries**:
-    - NumPy: For numerical operations.
-    - Pandas: For data manipulation and analysis, especially with Excel files.
-    - SciPy: For scientific and technical computing, including curve fitting and optimisation.
-    - Matplotlib: For creating static, interactive, and animated visualisations.
-- **GUI**: CustomTkinter (updated Python interface to the Tk GUI toolkit)
-- **Environment Management**: Conda
+| Task                                                                 | Time     |
+| -------------------------------------------------------------------- | -------- |
+| [Introduction](docs/01-Home.md)                                       | 20 mins  |
+| [Understanding Theoretical Background](docs/02-Theoretical-Background.md)                     | 30 mins  |
+| [Data Management and Processing](docs/03-Data-Management-and-Processing.md)             | 25 mins  |
+| [Time Lag Analysis Implementation](docs/04-TimelagAnalysis-Implementation.md)             | 25 mins  |
+| [Python PDE Implementation](docs/05-Python-PDE-Implementation.md)                  | 25 mins  |
+| [Visualisation Techniques](docs/06-Visualisation.md)                              | 20 mins  |
+| [GUI Implementation](docs/07-GUI-Implementation.md)                       | 15 mins  |
+| [Application Workflow](docs/08-Application-Workflow.md)                       | 20 mins  |
+| **Subtotal: Core Documentation**                                     | **3 hours** |
+| [Exercises and Best Practices](docs/09-Exercises-and-Best-Practices.md)               | 3 hours  |
+| **Total Estimated Time**                                             | **6 hours** |
 
 ## Project Structure 🗂️
 
@@ -131,36 +155,6 @@ Code is organised into logical components:
 - `notebooks`: Reserved for potential Jupyter Notebooks for interactive exploration or tutorials.
 - `tests`: Reserved for future test scripts.
 
-## Roadmap 🗺️
-
-### Core 🧩
-
-- [x] Data ingestion pipeline for Excel files
-    * [x] Tutorial in `03-Data-Management-and-Processing.md`
-- [x] Core time lag analysis theories
-    * [x] Documentation in `02-Theoretical-Background.md`
-    * [x] Implementation in `calculations.py` and `time_lag_analysis.py`
-- [x] Basic visualisation tools for results
-    * [x] Documentation in `06-Visualisation.md`
-    * [x] Implementation in `visualisation.py`
-- [x] Graphical User Interface (GUI) for ease of use
-    * [x] Documentation in `07-GUI-Implementation.md` 
-    * [x] Implementation in `app.py` 
-- [x] Documentation for core methods and application workflow
-    * [x] Provided in `docs/` (Guides 01-08)
-
-
-### Extensions 🔌
-
-- [ ] Automated testing suite
-
-## Data 📊
-
-Example datasets are provided in the `data/` directory. These are Excel files (`.xlsx`) representing typical raw data from gas permeation experiments.
-
-- Licensing: The provided data may be synthetic or anonymised for demonstration purposes within this exemplar. This data remains the property of the original owner, and permission must be sought for any use outside of this exemplar.
-- Location: Included directly in the repository under the `data/` folder.
-
 ## Best Practice Notes 📝
 
 - Reproducible environments: The `environment.yml` file ensures that users can create an identical Conda environment with all necessary dependencies.
@@ -171,22 +165,6 @@ Example datasets are provided in the `data/` directory. These are Excel files (`
 - Future:
     - Code testing: Implementing unit and integration tests in the `tests/` directory.
     - Continuous Integration (CI): Setting up CI pipelines for automated testing.
-
-## Estimated Time ⏳
-
-| Task                                                                 | Time     |
-| -------------------------------------------------------------------- | -------- |
-| [Introduction](docs/01-Home.md)                                       | 20 mins  |
-| [Understanding Theoretical Background](docs/02-Theoretical-Background.md)                     | 30 mins  |
-| [Data Management and Processing](docs/03-Data-Management-and-Processing.md)             | 25 mins  |
-| [Time Lag Analysis Implementation](docs/04-TimelagAnalysis-Implementation.md)             | 25 mins  |
-| [Python PDE Implementation](docs/05-Python-PDE-Implementation.md)                  | 25 mins  |
-| [Visualisation Techniques](docs/06-Visualisation.md)                              | 20 mins  |
-| [GUI Implementation](docs/07-GUI-Implementation.md)                       | 15 mins  |
-| [Application Workflow](docs/08-Application-Workflow.md)                       | 20 mins  |
-| **Subtotal: Core Documentation**                                     | **3 hours** |
-| [Exercises and Best Practices](docs/09-Exercises-and-Best-Practices.md)               | 3 hours  |
-| **Total Estimated Time**                                             | **6 hours** |
 
 ## Additional Resources 🔗
 
